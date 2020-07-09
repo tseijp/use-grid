@@ -1,44 +1,95 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# use-amazon
+🤏 __use-grid__ is a React hook for recreating the bootstrap grid system,
+and a fork of 👌 __use-media__ that tracks the state of CSS media queries.
 
-In the project directory, you can run:
+<p align="center">
+  <a href="https://github.com/tseijp/use-grid">    <img alt="build passin"src="https://img.shields.io/badge/build-passing-green.svg"/></a>
+  <a href="https://github.com/tseijp/use-grid">    <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
+  <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.1.0-green.svg"/></a>
+  <a href="https://twitter.com/tseijp" >             <img alt="twitter URL" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
+</p>
 
-### `npm start`
+### Table of Contents
+* [Install via npm](#install-via-npm)
+* [Quick started](#quick-started)
+* [Simple example](#simple-example)
+* [Available hooks](#available-hooks)
+* [~~Fantastic recipes~~](#fantastic-recipes)
+* [~~Performance pitfalls~~](#performance-pitfalls)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Install via npm
+```bash
+npm i use-grid
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Quick started
+```bash
+git clone github.com/tseijp/use-amazon
+cd use-amazon
+npm i
+npm start
+```
+* open browser and visit [localhost:3000](http://localhost:3000/)
+* ~Now you can go to our [demo](https://tsei.jp/hook/use-amazon), and try its usage.~
 
-### `npm test`
+### Simple example
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+__switch by media query__
+```js
+import React from 'react'
+import { useGrid } from 'use-amazon'
+import './styles.css'
 
-### `npm run build`
+export function App () {
+    const isMedium = useMedia({minWidth:720, maxWidth:960});
+    const [fontSize] = useGrid({xs:"2em", md:"50px", xl:"75px"});
+    return (
+        <div style={{fontSize}}>
+            {isMedium?'😃':'😢'}
+        </div>
+    );
+};
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+__use grid system__
+```js
+import React from 'react'
+import { useGrid } from 'use-amazon'
+import './styles.css'
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+export function App () {
+    const isMedium = useMedia({minWidth:1/2, maxWidth:1/3});
+    const width = useGrid({xs:1/2, md:1/3, xl:1/4});
+    return (
+        <div style={{display:"grid"}}>
+            <div style={{width, backgroundColor:isMedium?"red":"blue"}}>
+                {isMedium?'😃':'😢'}
+            </div>
+        </div>
+    );
+};
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Available hooks
 
-### `npm run eject`
+| Hook         | Description                                |
+| ------------ | ------------------------------------------ |
+| `useGrid`    | make it switch value by the specified media query |
+| `useMedia`   | get a match to the specified media query |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Performance Tuning
+```javascript
+export function Note ({children}) {
+    const width1= useGrid([                    "max-width:576px", "100%"],
+                          ["min-width:576px and max-width:768px", "50px"],
+                          ["min-width:768px"                    , "75px"])
+    const width2= useGrid([{                 maxWidth:"576px"}, "100%"],
+                          [{minWidth:"576px",maxWidth:"768px"}, "50px"],
+                          [{minWidth:"768px"                 }, "75px"])
+    const width3 = useGrid(["sm","100%"], ["md":"50px"], ["lg":"75px"])
+    const width4 = useGrid({sm:"100%",md:"50px",lg:"75px"})
+    const width5 = useGrid({sm:1, md:1/2, lg:"75px"})
+    return //TODO
+}
+```

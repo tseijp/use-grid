@@ -1,0 +1,13 @@
+.git
+.gitignore
+.npmignore
+/build
+/docs
+/node_modules
+/public
+/scripts
+/src
+config-overrides.js
+config-rollup.js
+package-lock.json
+tsconfig.json
