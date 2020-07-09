@@ -1,5 +1,5 @@
 
-# use-amazon
+# use-grid
 🤏 __use-grid__ is a React hook for recreating the bootstrap grid system,
 and a fork of 👌 __use-media__ that tracks the state of CSS media queries.
 
