@@ -79,6 +79,16 @@ export function App () {
 | `useMedia`   | get a match to the specified media query |
 
 ### Performance Tuning
+The grid system uses containers, rows and columns to control layout and alignment.
+|prefix|max width|max container width|  
+:----------|:--|:----------|:--------|  
+Extra small|xs |<_576_   px|auto     |  
+Small      |sm |>=_576_  px|_540_ px |  
+Medium     |md |>=_768_  px|_720_ px |  
+Large      |lg |>=_992_  px|_960_ px |  
+Extra large|xl |>=_1200_ px|_1140_ px|  
+
+__same works__
 ```javascript
 export function Note ({children}) {
     const width1= useGrid([                    "max-width:576px", "100%"],

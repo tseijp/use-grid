@@ -3,11 +3,11 @@ import {Effect, GridProps, MediaList, /*MediaObject, MediaString*/} from '../typ
 import {mockMediaString, /*queryObjectToString,*/queryPropsToList} from '../utils'
 
 const createGrid = (effect:Effect) => <T extends any>(...props:GridProps<T>):T => {
-    const [state, set] = useState<T|null>(null)
     const queries = useRef<[string,T][]>(
         queryPropsToList<T>( props[0].length
             ? props                    as MediaList<T>[]
             : Object.entries(props[0]) as MediaList<T>[]))
+    const [state, set] = useState<T>(queries.current[0][1])
     effect ( () => {
         let mounted = true;
         const medias = queries.current.map( ([query,value]:[string,any]) => {
@@ -31,3 +31,20 @@ const createGrid = (effect:Effect) => <T extends any>(...props:GridProps<T>):T =
 
 export const useGrid        = createGrid (useEffect);
 export const useLayoutGrid  = createGrid (useLayoutEffect);
+
+/*javascript
+const useGrid = (...props) => {
+    const queries = useRef( qP2L( props[0].length ? props : Object.entries(props[0])))
+    const [state, set] = useState(queries.current[0][1])
+    useEffect ( () => {
+        const medias = queries.current.map( ([query,value]) => {
+            const media = typeof window==="undefined"? mockMediaString:window.matchMedia(query)
+            const onChange =()=> Boolean(media.matches) && set(value)
+            state&&(onChange(), media.addListener(onChange))
+            return {media, onChange}
+        })
+        return () => medias.map( ({media,onChange}) => media.removeListener(onChange) )
+    }, [] )
+    return state
+}
+*/
