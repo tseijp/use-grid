@@ -1,9 +1,6 @@
-
-export interface BindsProps {
-    bind?:any,
-    spring:any,
-    width?:number
-    fontSize:string,
-}
-export interface SidesProps {onOpen?:()=>void}
-export interface TransProps {onOpen?:()=>void}
+export interface NoteProps {source?:string}
+export interface BasedProps {width?:number,fontSize?:number,color?:string}
+export interface BindsProps extends BasedProps{bind?:any,spring?:any,}
+export interface SidesProps extends BasedProps{onOpen?:()=>void,}
+export interface TransProps extends BasedProps{onOpen?:()=>void,}
+export interface NotesProps extends BasedProps{}

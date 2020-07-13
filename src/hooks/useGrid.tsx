@@ -18,7 +18,7 @@ const createGrid = (effect:Effect) => <T extends any>(...props:GridProps<T>):T =
             return {media, onChange}
         })
         return () => {
-            //mounted = false;
+            mounted = false;
             medias.map( ({media,onChange}) => media.removeListener(onChange) )
         }
     }, [] )

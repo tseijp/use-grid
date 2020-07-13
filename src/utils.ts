@@ -17,9 +17,10 @@ export function queryObjectToString (query:string|MediaObject) : string {
     if (typeof query === 'string') return query;
     const toS = ([key, val]:[string,string|number|boolean]) => {
         const feature = key.replace(/[A-Z]/g,s=>`-${s.toLowerCase()}`).toLowerCase();
-        const isNumber = typeof val==='number' && /[height|width]$/.test(feature)// ?
         if ( typeof val==='boolean' ) return `${val?'':'not '}${feature}`;
-        return `(${feature}: ${val}${isNumber?'px':''})`;
+        const isN = typeof val==='number' && /[height|width]$/.test(feature)// ?
+        return `(${feature}: ${isN ? `${val<0 ? <number>val*window.innerWidth : val}px` : val})`;
+        //return `(${feature}: ${val}${isNumber?'px':''})`;
     }
     return Object.entries(query).map(toS).join(' and ');
 }
@@ -34,8 +35,6 @@ export function queryPropsToList <T=any> ( props:MediaList<T>[] ) : [string, T][
         const turn = next!==null ? ` and (max-width:${toN(next)-1}px)` : ''
         return `(min-width:${toN(key)}px)${turn}`
     }
-    //const toN =(key)=> SIZE.find(s=>s===key)? {xs:1,sm:576,md:720,lg:960,xl:1140}[key] : 0
-    //const toS =(key,next)=>`(min-width:${ toN(key) }px)${ next?` and (max-width:${toN(next)-1}px)`:'' }`
     const getMedia = (props:[string,T][]) : [string,T][] => { // [[sm,red], [md,blue], ...]
         const grid:[string,T][] = SIZE.map(s=>props.find(p=>p[0]===s)||null).filter((m):m is [string,T]=>m!==null)
         const xsGr:[string,T][] = (grid.length)? grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]]: []

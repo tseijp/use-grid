@@ -1,5 +1,5 @@
 import {useLayoutEffect, useEffect, useState, /*useRef*/} from 'react';
-import {Effect, /*MediaList, */MediaObject, MediaString, /*AxiosProps*/} from '../types'
+import {Effect, MediaObject, MediaString, } from '../types'
 import {mockMediaString, queryObjectToString, /*queryPropsToList*/} from '../utils'
 
 const createMedia = (effect:Effect) =>
@@ -8,13 +8,13 @@ const createMedia = (effect:Effect) =>
     const [state, set] = useState<boolean>(defaultState);
     effect (()=>{
         let mounted = true;
-        const MediaString:MediaString = (typeof window === undefined)
+        const media:MediaString = (typeof window === undefined)
             ? mockMediaString
             : window.matchMedia(query);
-        const onChange =()=> mounted&&set(Boolean(MediaString.matches))
-        MediaString.addListener(onChange);
-        set(MediaString.matches);
-        return () => 1&&(mounted=false, MediaString.removeListener(onChange) )
+        const onChange =()=> mounted&&set(Boolean(media.matches))
+        media.addListener(onChange);
+        set(media.matches);
+        return () => 1&&(mounted=false, media.removeListener(onChange) )
     }, [query])
     return state
 }

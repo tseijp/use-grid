@@ -41,11 +41,7 @@ class NoteCard extends React.Component {
     componentWillUnmount(){
         clearInterval(this.timerID);
     }
-    clickEdit () {}
     clickTrash(){this.props.postCard(this.props.id)}
-    clickComment () {}
-    clickHeart () {}
-    clickEye(){}
     editText (text) {
         const pre = this.state[`${this.props.lang}_text`];
         const body = {[`${this.props.lang}_text`] : text};

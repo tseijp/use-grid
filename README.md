@@ -6,7 +6,7 @@ and a fork of 👌 __use-media__ that tracks the state of CSS media queries.
 <p align="center">
   <a href="https://github.com/tseijp/use-grid">    <img alt="build passin"src="https://img.shields.io/badge/build-passing-green.svg"/></a>
   <a href="https://github.com/tseijp/use-grid">    <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-  <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.1.0-green.svg"/></a>
+  <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.3.0-green.svg"/></a>
   <a href="https://twitter.com/tseijp" >             <img alt="twitter URL" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
 
@@ -25,25 +25,25 @@ npm i use-grid
 
 ### Quick started
 ```bash
-git clone github.com/tseijp/use-amazon
-cd use-amazon
+git clone github.com/tseijp/use-grid
+cd use-grid
 npm i
 npm start
 ```
 * open browser and visit [localhost:3000](http://localhost:3000/)
-* ~Now you can go to our [demo](https://tsei.jp/hook/use-amazon), and try its usage.~
+* ~Now you can go to our [demo](https://tsei.jp/hook/use-grid), and try its usage.~
 
 ### Simple example
 
 __switch by media query__
 ```js
 import React from 'react'
-import { useGrid } from 'use-amazon'
+import { useGrid } from 'use-grid'
 import './styles.css'
 
 export function App () {
     const isMedium = useMedia({minWidth:720, maxWidth:960});
-    const [fontSize] = useGrid({xs:"2em", md:"50px", xl:"75px"});
+    const fontSize = useGrid({xs:"2em", md:"50px", xl:"75px"});
     return (
         <div style={{fontSize}}>
             {isMedium?'😃':'😢'}
@@ -55,7 +55,7 @@ export function App () {
 __use grid system__
 ```js
 import React from 'react'
-import { useGrid } from 'use-amazon'
+import { useGrid } from 'use-grid'
 import './styles.css'
 
 export function App () {
