@@ -5,7 +5,7 @@ import {BindsProps, TransProps} from '../types'
 
 export const TransArea :FC<BindsProps> = ({spring, bind, fontSize=50}) => {
     const background = spring.scale.to((s:number) => `linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,${s-1}))`)
-    const width    = spring.rotateZ.to((r:number) => `${ fontSize*( Math.cos(r/90*Math.PI)+2 ) }px`)
+    const width    = spring.rotateZ.to((r:number) => `${ fontSize*( Math.cos(r/90*Math.PI)+1.5) }px`)//s*1.5~2.5
     //`calc(${fontSize}*${Math.cos(r/90*Math.PI)+1} + ${fontSize})`)
     const style = {position:"fixed",top:0,right:0,height:"100%",zIndex:1,overflow:"hidden"}
     return <animated.div style={{...style,width,background}} {...bind()} />
@@ -39,10 +39,10 @@ export const TransItem :FC<BindsProps> = ({children, fontSize=50, /*spring, widt
         { margin:`${fontSize/4}px 0px`, borderRadius:`${fontSize}px 0px  0px ${fontSize}px`,
           backgroundColor:"#212121",color:"#818181", display:"inline-block" },
         { margin:`auto ${fontSize/2}px`,height:`${fontSize}px`, fontSize:`${fontSize}px`,
-          display:"flex",alignItems:"center"} ], [fontSize])
+          display:"flex",alignItems:"center", zIndex:1} ], [fontSize])
     return (
         <animated.div style={styles[0]}>
-            <div style={styles[1]} onClick={(e)=>e.stopPropagation()}>{children}</div>
+            <div style={styles[1]}>{children}</div>
         </animated.div>
     )
 }

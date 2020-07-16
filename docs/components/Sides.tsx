@@ -4,8 +4,8 @@ import { useGesture } from 'react-use-gesture'
 import {BindsProps,SidesProps} from'../types'
 
 
-export const SidesArea :FC<BindsProps> = ({spring, bind, fontSize}) => {
-    const width = spring.x.to((x:number)=>x>1?"100%":`${fontSize}px`)
+export const SidesArea :FC<BindsProps> = ({spring, bind, fontSize=50}) => {
+    const width = spring.x.to((x:number)=>x>1?"100%":`${fontSize/2}px`)
     const background = spring.scale.to((s:number)=>{
         const rate  = spring.x.animation.to/window.innerWidth //0 ~ 0.5
         return `linear-gradient(90deg,rgba(0,0,0,${rate+s-1}),rgba(0,0,0,0))`
@@ -14,12 +14,12 @@ export const SidesArea :FC<BindsProps> = ({spring, bind, fontSize}) => {
     return <animated.div style={{...style,width,background}} {...bind()} />
 }
 
-export const SidesToggle : FC<BindsProps> = ({fontSize, spring, bind}) => {
-    const style = { position:"fixed",fontSize:`${fontSize}px`,width:`${fontSize}px`,
+export const SidesToggle : FC<BindsProps> = ({spring, bind, fontSize=50}) => {
+    const style = { position:"fixed",fontSize,width:fontSize,
                     color:"#212121",transform:`translate(-50%,-50%)`,textAlign:"center",
                     userSelect:"none",} as CSSProperties
     return (
-        <animated.div {...bind()} style={{top:`${fontSize}px`,left:`${fontSize}px`,position:"absolute",...spring}}>
+        <animated.div {...bind()} style={{top:fontSize,left:fontSize,position:"absolute",...spring}}>
             <i className={`fas fa-${"align-left"}`} style={style}/>
         </animated.div>
     )
@@ -41,7 +41,7 @@ export const SidesContainer : FC<BindsProps> = ({bind, fontSize, spring, childre
 export const SidesItem :FC<BindsProps> = ({children, fontSize, /*spring, width*/}) => { // TODO1701
     //const x = spring.x.to( (x:number) => (x-width) ) // TODO1701
     const style = { padding:"10px 10px 10px 32px",color:"#818181",
-                    display:"block",transition:"0.75s",fontSize:`${fontSize}px`, }//x, y:spring.y}
+                    display:"block",transition:"0.75s",fontSize, }//x, y:spring.y}
     return <animated.div {...{children, style}} />
 }
 
