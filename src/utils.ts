@@ -19,7 +19,7 @@ export function queryObjectToString (query:string|MediaObject) : string {
         const feature = key.replace(/[A-Z]/g,s=>`-${s.toLowerCase()}`).toLowerCase();
         if ( typeof val==='boolean' ) return `${val?'':'not '}${feature}`;
         const isN = typeof val==='number' && /[height|width]$/.test(feature)// ?
-        return `(${feature}: ${isN ? `${val<0 ? <number>val*window.innerWidth : val}px` : val})`;
+        return `(${feature}: ${isN ? `${val<0 ? Number(val)*window.innerWidth : val}px` : val})`;
         //return `(${feature}: ${val}${isNumber?'px':''})`;
     }
     return Object.entries(query).map(toS).join(' and ');

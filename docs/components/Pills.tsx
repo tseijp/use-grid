@@ -1,17 +1,17 @@
-import React, {FC,Fragment,Children,CSSProperties,useMemo,useState,useRef,/*useEffect*/} from 'react'
+import React, {FC,Children,CSSProperties,useMemo,useState,useRef,/*useEffect*/} from 'react'
 import { useSprings, animated/*, config*/ } from 'react-spring'
 //import { useGesture, } from 'react-use-gesture'
 
 export const Pills:FC<any> = ({
-    pos={x:0,y:0,r:Math.PI/4}, depth=0, rate=1.414,
+    position={x:0,y:0,r:Math.PI/4}, depth=0, rate=1.414,
     fontSize=50, dark=false, isOpen=true, ...props}) => {
     const length = useMemo( () => props?.children?.length||1,[props.children] )
-    const childPos = useRef( Array(length).fill(pos) )
+    const childPos = useRef( Array(length).fill(position) )
     const [childHub, setChildHub] = useState( Array(length).fill(false) )
     // depth>0 && console.log(`Render Pills:${depth} isOpen:${isOpen} childHub:${childHub}`);
     const fn = ({/*mx=0,my=0,last=false,down=false*/}) => (i:number) => {
         //depth>1 && console.log(`\tfn:${depth}-${i} ${isOpen?'':'no '}open`);
-        const r = pos.r/2 + (Math.PI/2) * ((length-i-1)*10+1)/((length-1)*10+2)-Math.PI/8
+        const r = position.r/2 + (Math.PI/2) * ((length-i-1)*10+1)/((length-1)*10+2)-Math.PI/8
         const x = isOpen ?  rate*fontSize*Math.cos(r) : 0
         const y = isOpen ? -rate*fontSize*Math.sin(r) : 0
         childPos.current[i] = {x,y:-y,r}
@@ -28,7 +28,7 @@ export const Pills:FC<any> = ({
         return child?.props?.children
           ? React.cloneElement(child, {children:
                 <Pills {...{key, dark, isOpen:isOpen&&childHub[key],
-                    depth:depth+1, pos:childPos.current[key],
+                    depth:depth+1, position:childPos.current[key],
                     rate:rate*(1+(depth+1)*0.2),
                     fontSize:fontSize/(1+(depth+1)*0.2),
                     ...child.props}}/>
@@ -41,7 +41,7 @@ export const Pills:FC<any> = ({
         position:"absolute" ,transform:`translate(-50%,-50%)`,
     }), [fontSize, dark])
     return (
-        <div style={{position:"fixed",left:pos.x,bottom:pos.y,}}>
+        <div style={{position:"fixed",left:position.x,bottom:position.y,}}>
             {springs.map((spring, key) =>
                 <animated.div key={`${depth}-${key}`} style={{...spring, ...style}}
                     onClick={e=>1&&(setHub(key, !childHub[key]),e.stopPropagation())}>

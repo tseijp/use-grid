@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import ReactDOM from 'react-dom';
 import { unregister } from './serviceWorker';
-import { useGrid, useMedia } from '../src'
+// import { useGrid, useMedia } from '../src'; TODO 1754
 import { Pills, Sides, Trans, Notes } from './components'
 import { Basic, Grid, Test } from './examples'
 import './styles.css'
@@ -29,9 +29,10 @@ const App :FC = () => {
             <div style={{color:dark?"#818181":"#000", fontSize}}>Examples</div>
             {`width:${width}px fontSize:${fontSize}px`}
             <Notes {...{fontSize, width, dark}}>
-                <Basic>
-                    <Basic />
-                </Basic>
+                <i key="0-0" className="fas fa-ellipsis-h"     onClick={()=>null}>
+                <i key="1-0" className="fas fa-share-square"   onClick={()=>null}/>
+                    <i key="0-1" className="fas fa-sign-in-alt"    onClick={()=>null}/>
+                </i>
             </Notes>
             <Pills {...{fontSize,width,dark,open:true}}>
                 <i className="fas fa-ellipsis-h"         onClick={()=>null}>
@@ -51,7 +52,7 @@ const App :FC = () => {
             <Sides {...{fontSize, width}}>
                 <p onClick={()=>window.location.href="/note"}>Note</p>
                 <p onClick={()=>window.location.href="/hook"}>Hook</p>
-                <p onClick={()=>window.location.href="/signin"}>Signin</p>
+                <p onClick={()=>window.location.href="/sign"}>Sign</p>
             </Sides>
             <Trans {...{fontSize, width}}>
                 <div onClick={()=>setLang(p=>p!=='Ja'?'Ja':'En')}>{lang}</div>

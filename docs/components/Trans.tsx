@@ -1,4 +1,4 @@
-import React, {FC,Fragment,CSSProperties,useCallback,useMemo,useRef} from 'react';
+import React, {FC,CSSProperties,useCallback,useMemo,useRef} from 'react';
 import { useSpring, animated, config, UseSpringProps } from 'react-spring'
 import { useGesture } from 'react-use-gesture'
 import {BindsProps, TransProps} from '../types'

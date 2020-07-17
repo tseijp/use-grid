@@ -1,9 +1,10 @@
-作れるようにする
 # 🤏 use-grid
 🤏 __use-grid__ is
 a hook to build responsive layouts of all shapes and sizes,
-a fork of 👌 __use-media__ that track the state of CSS media queries, and
-remake of 🅱 __bootstrap__ grid system thanks to column system and five responsive tiers.
+
+a fork of 👌 __use-media__ that track the state of CSS media queries,
+
+and remake of 🅱 __bootstrap__ grid system thanks to column system and five responsive tiers.
 
 <p align="center">
   <a href="https://github.com/tseijp/use-grid">    <img alt="build passin"src="https://img.shields.io/badge/build-passing-green.svg"/></a>
@@ -12,6 +13,8 @@ remake of 🅱 __bootstrap__ grid system thanks to column system and five respon
   <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 __use-grid__ is
   a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
+
+<hr>
 
 ### Table of Contents
 * [Install via npm](#install-via-npm)
