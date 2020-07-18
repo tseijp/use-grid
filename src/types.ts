@@ -6,4 +6,4 @@ export type MediaString = MediaQueryList;
 export type MediaObject = {[key:string]: string|number|boolean};
 // for useGrid
 export type MediaList<T=any> = [string|MediaObject, T];
-export type GridProps<T=any> = MediaList<T>[]|{[key:string]:T}[]
+export type GridProps<T=any> = {[key:string]:T} | MediaList<T>[]

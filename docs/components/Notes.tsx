@@ -1,5 +1,5 @@
-import React, {Fragment, FC, cloneElement, CSSProperties, Children, useState, useRef} from 'react'
-import { useSprings, animated, config } from 'react-spring'
+import React, {FC, cloneElement, CSSProperties, Children, useRef} from 'react'
+import { useSprings, animated } from 'react-spring'
 import { useGesture, } from 'react-use-gesture'
 //import {useGrid} from '../../src'
 //import {NotesProps} from '../types'

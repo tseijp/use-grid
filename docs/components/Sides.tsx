@@ -4,8 +4,8 @@ import { useGesture } from 'react-use-gesture'
 import {BindsProps,SidesProps} from'../types'
 
 
-export const SidesArea :FC<BindsProps> = ({spring, bind, fontSize=50}) => {
-    const width = spring.x.to((x:number)=>x>1?"100%":`${fontSize/2}px`)
+export const SidesArea :FC<BindsProps> = ({spring, bind, size=50}) => {
+    const width = spring.x.to((x:number)=>x>1?"100%":`${size/2}px`)
     const background = spring.scale.to((s:number)=>{
         const rate  = spring.x.animation.to/window.innerWidth //0 ~ 0.5
         return `linear-gradient(90deg,rgba(0,0,0,${rate+s-1}),rgba(0,0,0,0))`
@@ -14,22 +14,22 @@ export const SidesArea :FC<BindsProps> = ({spring, bind, fontSize=50}) => {
     return <animated.div style={{...style,width,background}} {...bind()} />
 }
 
-export const SidesToggle : FC<BindsProps> = ({spring, bind, fontSize=50}) => {
-    const style = { position:"fixed",fontSize,width:fontSize,
+export const SidesToggle : FC<BindsProps> = ({spring, bind, size=50}) => {
+    const style = { position:"fixed",fontSize:size,width:size,
                     color:"#212121",transform:`translate(-50%,-50%)`,textAlign:"center",
                     userSelect:"none",} as CSSProperties
     return (
-        <animated.div {...bind()} style={{top:fontSize,left:fontSize,position:"absolute",...spring}}>
+        <animated.div {...bind()} style={{top:size,left:size,position:"absolute",...spring}}>
             <i className={`fas fa-${"align-left"}`} style={style}/>
         </animated.div>
     )
 }
 
-export const SidesContainer : FC<BindsProps> = ({bind, fontSize, spring, children}) => {
-    const margin = `${fontSize}px 0px 0px 0px`
+export const SidesContainer : FC<BindsProps> = ({size, spring, children}) => {
+    const margin = `${size}px 0px 0px 0px`
     const width = spring.x.to((x:number)=>x > 0 ? x : 0)
     const style = { position:"fixed",top:"2%",left:0,zIndex:1,overflow:"hidden",
-                    borderRadius:`0px ${fontSize}px ${fontSize}px 0px`,
+                    borderRadius:`0px ${size}px ${size}px 0px`,
                     height:`96%`, backgroundColor:"#212121",} as CSSProperties
     return (
         <animated.div style={{...style,width}}>
@@ -38,14 +38,14 @@ export const SidesContainer : FC<BindsProps> = ({bind, fontSize, spring, childre
     )
 }
 
-export const SidesItem :FC<BindsProps> = ({children, fontSize, /*spring, width*/}) => { // TODO1701
+export const SidesItem :FC<BindsProps> = ({children, size, /*spring, width*/}) => { // TODO1701
     //const x = spring.x.to( (x:number) => (x-width) ) // TODO1701
     const style = { padding:"10px 10px 10px 32px",color:"#818181",
-                    display:"block",transition:"0.75s",fontSize, }//x, y:spring.y}
+                    display:"block",transition:"0.75s",fontSize:size, }//x, y:spring.y}
     return <animated.div {...{children, style}} />
 }
 
-export const Sides : FC<SidesProps> = ({children, width=500, fontSize=50, onOpen=()=>null}={}) => {
+export const Sides : FC<SidesProps> = ({children, width=500, size=50, onOpen=()=>null}={}) => {
     const opened = useRef<boolean>(false)
     const setOpened = useCallback((bool:boolean)=>1&&( (opened.current=bool), onOpen&&onOpen() ),[onOpen])
     const [spring, set] = useSpring<any>( () => ({x:0,y:0,scale:1}) )
@@ -62,11 +62,11 @@ export const Sides : FC<SidesProps> = ({children, width=500, fontSize=50, onOpen
     })
     return (
         <div style={{position:"fixed", top:0,left:0}}>
-            <SidesToggle {...{fontSize, spring, bind, }} />
-            <SidesArea   {...{fontSize, spring, bind, }} />
-            <SidesContainer{...{fontSize, spring, bind, }}>
+            <SidesToggle {...{size, spring, bind, }} />
+            <SidesArea   {...{size, spring, bind, }} />
+            <SidesContainer{...{size, spring, bind, }}>
             {React.Children.map(children, ((child, key:number)=>
-                <SidesItem {...{fontSize, spring, width, key}}>{child}</SidesItem>
+                <SidesItem {...{size, spring, width, key}}>{child}</SidesItem>
             ))}
             </SidesContainer>
         </div>

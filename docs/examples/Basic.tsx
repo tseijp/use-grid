@@ -1,8 +1,8 @@
 import React, {FC} from 'react'
 import {useMedia, useGrid} from '../../src'
 export const Basic:FC<any> = () => {
-    const isMedium = useMedia({minWidth:720, maxWidth:960});
-    const fontSize = useGrid({xs:"2em", md:"50px", xl:"75px"});
+    const isMedium = true//useMedia({minWidth:720, maxWidth:960});
+    const fontSize = 50//useGrid({xs:"2em", md:"50px", xl:"75px"});
     return (
         <div style={{fontSize}}>
             {isMedium?'😃':'😢'}

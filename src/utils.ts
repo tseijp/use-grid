@@ -1,5 +1,5 @@
 //import {useLayoutEffect, useEffect, useState, useRef} from 'react';
-import {/*Effect,*/ MediaList, MediaObject, MediaString/*, AxiosProps*/} from './types'
+import {/*Effect,*/ GridProps, MediaList, MediaObject, MediaString} from './types'
 
 
 export const mockMediaString : MediaString = {
@@ -25,7 +25,7 @@ export function queryObjectToString (query:string|MediaObject) : string {
     return Object.entries(query).map(toS).join(' and ');
 }
 
-export function queryPropsToList <T=any> ( props:MediaList<T>[] ) : [string, T][] {
+export function queryPropsToList <T=any> ( initialProps:GridProps<T> ) : [string, T][] {
     const SIZE = ["xs","sm","md","lg","xl"]
     const toN = (key:string) : number => {
         if ("xs"!==key&&"sm"!==key&&"md"!==key&&"lg"!==key&&"xl"!==key) return 0
@@ -41,7 +41,15 @@ export function queryPropsToList <T=any> ( props:MediaList<T>[] ) : [string, T][
         const noGr:[string,T][] = (grid.length)? props.filter(p=>!SIZE.find(s=>s===p[0]))        : props
         return [...noGr, ...[...xsGr,...grid].map((g,i)=>[toS(g[0],i<grid.length-1?grid[i+1][0]:null), g[1]]) as [string,T][] ]
     }
-    return getMedia( props.map( ([key,val]) => [queryObjectToString(key),val] ) )
+    if ( !initialProps?.length )
+        initialProps = Object.entries(initialProps) as MediaList<T>[]
+    return getMedia((initialProps as MediaList<T>[]).map( ([key,val]) => [queryObjectToString(key),val] ))
+}
+
+export function queryFunctionToList <T=any> ( length:number, initfn:((i:number)=>any) ) {
+    const toL =(fn:((i:number)=>any)) => [...Array(length)].map( (_,i:number) => fn(i) )
+    const toT =(st:{[key:string]:T}[])=> Object.keys(st[0]).map(k=>({[k]:st.map(s=>s[k])}))
+    return Object.assign({},...toT( toL(initfn) ))
 }
 /*
 ```javascript

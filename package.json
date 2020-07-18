@@ -1,6 +1,6 @@
 {
   "name": "use-grid",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "dist/main.js",
   "module": "dist/module.es.js",
   "private": false,
@@ -9,7 +9,7 @@
   "homepage": "tsei.jp",
   "repository": "https://github.com/tseijp/use-grid",
   "bugs": "https://github.com/tseijp/use-grid/issues",
-  "description": "🤏 __use-grid__ is a hook to build responsive layouts of all shapes and sizes.",
+  "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
   "keywords": [
     "react",
     "material-ui",

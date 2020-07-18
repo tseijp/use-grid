@@ -9,8 +9,8 @@ and remake of 🅱 __bootstrap__ grid system thanks to column system and five re
 <p align="center">
   <a href="https://github.com/tseijp/use-grid">    <img alt="build passin"src="https://img.shields.io/badge/build-passing-green.svg"/></a>
   <a href="https://github.com/tseijp/use-grid">    <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-  <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.4.0-green.svg"/></a>
-  <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 __use-grid__ is
+  <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.5.0-green.svg"/></a>
+  <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
   a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
 
@@ -44,14 +44,14 @@ npm start
 __switch by media query__
 ```js
 import React from 'react'
-import { useGrid } from 'use-grid'
-import './styles.css'
+import { useMedia, useGrid } from 'use-grid'
 
-export function App () {
-    const isMedium = useMedia({minWidth:720, maxWidth:960});
-    const fontSize = useGrid({xs:"2em", md:"50px", xl:"75px"});
+export function Exmple () {
+    const isMedium      = useMedia({ minWidth:720, maxWidth:960 });
+    const [ fontSize ]  = useGrid({ xs:"2em", md:"50px", xl:"75px" });
+    const [ width,set ] = useGrid({ md:1/3, xl:1/4 });
     return (
-        <div style={{fontSize}}>
+        <div style={{fontSize, width}} onClick={()=>set({p=>{md:p.lg,lg:p.md}})}>
             {isMedium?'😃':'😢'}
         </div>
     );
@@ -59,31 +59,34 @@ export function App () {
 ```
 
 __use grid system__
+
 ```js
 import React from 'react'
-import { useGrid } from 'use-grid'
-import './styles.css'
+import { useGrids } from 'use-grid'
 
 export function App () {
-    const isMedium = useMedia({minWidth:1/2, maxWidth:1/3});
-    const width = useGrid({xs:1/2, md:1/3, xl:1/4});
+    const faces = ['🙄','🤣','🧐','🤯','🤮']
+    const [ w ] = useGrids(faces.length, (i)=>({md:1/5, xl:i/15}))
     return (
         <div style={{display:"grid"}}>
-            <div style={{width, backgroundColor:isMedium?"red":"blue"}}>
-                {isMedium?'😃':'😢'}
-            </div>
+            {faces.map( (face, i) =>
+                <div style={{width:w[i]}}>{face}</div>
+            )}
         </div>
-    );
+    )
 };
 ```
 
 ### Available hooks
 
-| Hook         | Description                                |
-| ------------ | ------------------------------------------ |
-| `useGrid`    | make it switch value by the specified media query |
-| `useMedia`   | get a match to the specified media query |
-| `useGrids`   | COMING SOON |
+| Hook              | Description                                             |
+| ----------------- | ------------------------------------------------------- |
+| `useGrid`         | make it switch value by media query with useEffect      |
+| `useMedia`        | get a match to media query with useEffect |
+| `useLayutGrid`    | make it switch value by media query with useLayoutEffect|
+| `useLayoutMedia`  | get a match to media query with useLayoutEffect |
+| `useGrids`        | COMING SOON |
+| `useGrids`        | COMING SOON |
 
 ### Performance Tuning
 The grid system uses containers, rows and columns to control layout and alignment.

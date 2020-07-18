@@ -1,2 +1,3 @@
-export * from './useGrid'
-export * from './useMedia'
+export * from './useGrid';
+export * from './useGrids';
+export * from './useMedia';
