@@ -1,79 +1,99 @@
-import React, {FC, cloneElement, CSSProperties, Children, useRef} from 'react'
-import { useSprings, animated } from 'react-spring'
+import React, {FC, CSSProperties, Children,useMemo,useEffect,useState,useRef} from 'react'
+import { useSprings, animated as a } from 'react-spring'
 import { useGesture, } from 'react-use-gesture'
-//import {useGrid} from '../../src'
-//import {NotesProps} from '../types'
 
-export const NoteCard :FC<any> = ({children, scale, zIndex, bind, fontSize=50, width=500, height=500, dark=false}) => {
-    const boxShadow = scale.to((s:number)=>`0px 1px 50px rgba(0,0,0,${s-0.8})`)
-    const ref = useRef<HTMLDivElement|null>(null)  //TODO 1907
-    const style = {
-        scale,zIndex,boxShadow,width,height,//TODO 1903
-        position:"absolute",
-        background:dark?"#212121":"#fff",
-        color     :dark?"#818181":"#000",padding:`${fontSize/2}px 0px 0px 0px`,
-        borderRadius:`${fontSize/2}px`, } as CSSProperties
-    return (
-        <animated.div style={style}>
-            <div {...{ref, children}}/>
-        </animated.div>
-    )
-}
-
-const clamp = (x:number, min=0, max=1) :number  => (x < min)?min:(x>max)?max:x
+const clamp = (x:number, min=0, max=1) :number  => (x<min)?min:(x>max)?max:x
 const swap=(arr:number[],ind:number,row:number) => {
     const ret = [...arr.slice(0, ind), ...arr.slice(ind+1, arr.length)]
     return [...ret.slice(0, row), ...arr.slice(ind, ind+1), ...ret.slice(row)]
 }
-export const Notes:FC<any> =
-    ({  position={x:window.innerWidth/2,y:0}, depth=0, rate=1,
-        children, fontSize=50, width=500, height=500, dark=false, open=false}) => {
+
+export const Notes:FC<any> = ({children, toggleRight, toggleLeft, depth=0, ...props}) => {
+    const {size=50, width=500, height=500, style={}} = props
     const length = children?.length || 1
+    const [openLeft, setOpenLeft] = useState<boolean[]>(Array(length).fill(false))
+    const [openRight, setOpenRight] = useState<boolean[]>(Array(length).fill(false))
+    const [container, setContainer] = useState<number>(height*length)
+    const containerRef = useRef<HTMLDivElement|null>(null)
     const childHeight = useRef( Array(length).fill(height) )
-    const notes = Children.map(children, (child,key) => {
-        const grandLength = Children.count(child.props.children) || 0
-        childHeight.current[key] = (grandLength+1)*height
-        return (grandLength > 0)
-          ? cloneElement(child, { children :
-                <Notes {...{fontSize, width, dark, open,
-                    depth:depth+1,
-                    position:{x:0,y:height}}}>
-                    {child.props.children}</Notes>
-            })
-          : child
-    })
-    console.log(`Render Note:${depth}`)
-    const order = useRef<number[]>(notes.map((c:any,i:number)=>i))
-    const getY=({arr=order.current,pre=0})=>position.y+(pre>0?arr.slice(0,pre).map(i=>childHeight.current[i]).reduce((a,b)=>a+b):0)
-    const fn = ({arr=order.current,index=-1,pre=-1,h=0,mx=0,my=0,down=false}) => {
-        console.log(getY({arr,pre:arr.indexOf(2)}))
-        return (i:number) => (down && i===index)
-            ? {x:down?mx:0, y:getY({pre})+my, scale:0.9, zIndex:'1', shadow:15, immediate:(n:string)=>n==='y'||n=== 'zIndex'}
-            : {x:0, y:getY({arr,pre:arr.indexOf(i)}), scale:1  , zIndex:'0', shadow:1 , immediate:false}
-    }
-    const [springs, set] = useSprings(notes.length, fn({arr:order.current,h:height}))
+    /*------------------------- React Springs -------------------------*/
+    const order = useRef<number[]>([...Array(length)].map((_:any,i:number)=>i))
+    const isopen = useRef<boolean>(false)
+    const getY = ({pre=0,arr=order.current})=>(pre>0?arr.slice(0,pre).map(i=>childHeight.current[i]).reduce((a,b)=>a+b):0)
+    const getF = ({i=-1,arr=order.current,pre=-1,mx=0,my=0,down=false}) => (index:number) => (down && index===i)
+        ? {x:down?mx:0,            y:getY({pre})+my, scale:0.9, zIndex:'1', shadow:15, immediate:(n:string)=>n==='y'||n=== 'zIndex'}
+        : {x:0,y:getY({pre:arr.indexOf(index),arr}), scale:1  , zIndex:'0', shadow:1 , immediate:false}
+    const getG = ({i=-1,x=0,s=1,arr=order.current}) => (index:number) => (index===i)
+        ? {x:x,y:getY({pre:arr.indexOf(index),arr}), scale:s, zIndex:'0', shadow:1, immediate:false}
+        : {x:0,y:getY({pre:arr.indexOf(index),arr}), scale:1, zIndex:'0', shadow:1, immediate:false}
+    const open  = ({i=-1,x=0,s=0.9}) =>1&&( (isopen.current=true ), set(getG({i,x,s})) )
+    const close = ({i=-1,x=0,s=1.0}) =>1&&( (isopen.current=false), set(getG({i,x,s})) )
+    const [springs, set] = useSprings(length, getF({}))
     const bind = useGesture({
-        onDrag:({down, args:[index], movement:[mx,my]}) => {
-            const pre = order.current.indexOf(index)
-            const row = clamp( Math.round(pre+my/height), 0, notes.length-1 )
+        onDrag:({last,down,args:[i],movement:[mx,my],vxvy:[vx,vy],cancel,startTime,timeStamp}) => {
+            const pre = order.current.indexOf(i)
+            const row = clamp( Math.round(pre+my/height), 0, length-1 )
             const arr = swap(order.current, pre, row)
-            if(!down) order.current = arr
-            set( fn({arr, index, pre, mx, my, h:height, down}) )
+            if(!down && timeStamp-startTime>100) order.current = arr // TODO
+            if(!last) return timeStamp-startTime>100 && set( getF({arr,i,pre,mx,my,down}) )
+            const x = (mx>0?1:-1) * (window.innerWidth/2 - width/2 - size*2 )
+            if(my**2>width**2/4 && cancel) cancel()
+            if(!isopen.current) return (mx**2<.1||x**2/2<mx**2||vx**2>1/4)?open({i,x}):close({i})
+            if( isopen.current) return (mx**2<.1||x**2/2<mx**2||vx**2>1/4)?close({i}):open({i,x})
         }
     })
-    //console.log("Render Notes");
-    const background = "rgba(0,100,0,0.5)"
-    const style = {width,position:"absolute",transformOrigin:"50% 50% 0px"} as React.CSSProperties
+    /* ------------------------- Child Render -------------------------*/
+    const notes = Children.map(children, (child,key) => { //toArray(children)
+        const grand = Children.toArray(child.props.children) || []//count(child.props.children) || 0
+        return (grand.length>1 && depth===0) // TODO form depth > 0
+            ? React.cloneElement(child, {children:grand[0], left:null, right:(
+                <Notes {...{...props, depth:depth+1}}>
+                    {grand.slice(1)}
+                </Notes>
+            )})
+            : child
+    })
+    const styles = useMemo<CSSProperties[]>( () => [
+        {width,position:"relative",left:`calc(50% + ${depth*size}px)`,transform:"translateX(-50%)"},
+        {width,position:"absolute",padding:`${size/2}px 0`,transformOrigin:"50% 50% 0px"},///*DEV*/background:"rgba(0,100,0,0.5)"},
+        {width,position:"relative",minHeight:height-size, padding:`${size/2}px 0px`,...style},
+        {position:"absolute",left:"50%",top:0    ,transform:"translateX(-50%)",overflow:"hidden"},///*DEV*/background:"rgba(0,0,255,0.5)"},
+        {position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",fontSize:size,}
+    ], [depth, width,size,height])
+    useEffect(()=>{
+        const childs =  Array.from(containerRef?.current?.children||[])
+        childHeight.current = [...childs].map((c:any)=>c.clientHeight)
+        set(getF({}))
+        setContainer(childHeight.current.reduce((a,b)=>a+b))
+    }, [size, getF, openLeft, openRight])
+    console.log(`Render Notes :${depth}`);
     return (
-        <div style={{position:depth===0?"relative":"absolute",top:position.y,
-            left:"50%",transform:"translateX(-50%)",
-            width,height:childHeight.current.reduce((a,b)=>a+b)}}>
-            {springs.map( ({x,y,scale,zIndex}, key) =>
-                <animated.div {...{key}} {...bind(key)} style={{x,y,background,...style}}>
-                    <NoteCard {...{scale, zIndex, bind, fontSize, width, dark}}>
-                        {notes[key]}{position.y}
-                    </NoteCard>
-                </animated.div>
+        <div ref={containerRef} style={{height:container,...styles[0]}}>
+            {springs.map( ({x,y,scale,}, key) =>
+                <a.div {...{key}} style={{x,y,...styles[1]}}>
+                    <a.div {...bind(key)} style={{scale,...styles[2]}}>
+                        {notes[key]}
+                    </a.div>
+                    { x.interpolate((px:number)=>px**2>0 ) &&
+                    <a.div style={{height:childHeight.current[key],
+                        x:x.to((px:number)=> -px+(px>0?-.5:.5)*(width)),//-size) ),
+                        y:0, ...styles[3],
+                        scale  :x.to((px:number)=>px**2/4>size**2?1:(px>0?px:-px)/(size*2)),
+                        width  :x.to((px:number)=>px>0?px*2:-px*2),
+                        display:x.to((px:number)=>px?"inline":"none")
+                    }}>
+                        <a.div style={{display:x.to((px:number)=>px>0?"inline":"none"),...styles[4]}}
+                            onClick={()=>1&&((isopen.current=false), setOpenLeft(p=>Object.assign([],{[key]:!p[key]})))}>
+                            {toggleLeft && toggleLeft()}</a.div>
+                        <a.div style={{display:x.to((px:number)=>px<0?"inline":"none"),...styles[4]}}
+                            onClick={()=>1&&((isopen.current=false), setOpenRight(p=>Object.assign([],{[key]:!p[key]})))}>
+                            {toggleRight && toggleRight()}</a.div>
+                    </a.div>
+                    }
+                    { openRight[key] &&/* TODO grand child*/
+                        notes[key].props?.right || ''
+                    }
+                </a.div>
             )}
         </div>
     )

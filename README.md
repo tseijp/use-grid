@@ -90,7 +90,7 @@ export function App () {
 
 ### Performance Tuning
 The grid system uses containers, rows and columns to control layout and alignment.
- |prefix|max width|max container width|  
+name|prefix|max width|max container width|  
 :----------|:--|:----------|:--------|  
 Extra small|xs |<_576_   px|auto     |  
 Small      |sm |>=_576_  px|_540_ px |  
