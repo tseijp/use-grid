@@ -1,10 +1,10 @@
 import {useLayoutEffect, useEffect, useState, /*useRef*/} from 'react';
 import {Effect, MediaObject, MediaString, } from '../types'
-import {mockMediaString, queryObjectToString, /*queryPropsToList*/} from '../utils'
+import {mockMediaString, convertObjToStr, /*queryPropsToList*/} from '../utils'
 
 const createMedia = (effect:Effect) =>
                     (rawQuery:string|MediaObject, defaultState=false) : boolean => {
-    const query = queryObjectToString(rawQuery);
+    const query = convertObjToStr(rawQuery);
     const [state, set] = useState<boolean>(defaultState);
     effect (()=>{
         let mounted = true;

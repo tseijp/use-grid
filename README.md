@@ -44,18 +44,20 @@ npm start
 __switch by media query__
 ```js
 import React from 'react'
-import { useMedia, useGrid } from 'use-grid'
-
-export function Exmple () {
+import {useMedia, useGrid} from 'use-grid'
+export const Basic = ({children}) => {
     const isMedium      = useMedia({ minWidth:720, maxWidth:960 });
     const [ fontSize ]  = useGrid({ xs:"2em", md:"50px", xl:"75px" });
-    const [ width,set ] = useGrid({ md:1/3, xl:1/4 });
+    const [ width,set ] = useGrid({ md:1/3, lg:1/4 });
     return (
-        <div style={{fontSize, width}} onClick={()=>set({p=>{md:p.lg,lg:p.md}})}>
+        <div style={{fontSize, width}}
+            onClick={ () => set((p)=>({md:p.lg,lg:p.md})) }>
             {isMedium?'😃':'😢'}
+            {children}
         </div>
     );
 };
+
 ```
 
 __use grid system__
@@ -64,16 +66,16 @@ __use grid system__
 import React from 'react'
 import { useGrids } from 'use-grid'
 
-export function App () {
-    const faces = ['🙄','🤣','🧐','🤯','🤮']
-    const [ w ] = useGrids(faces.length, (i)=>({md:1/5, xl:i/15}))
+export const Grid = ({children}) => {
+    const faces = ['🙄','🤣','🧐','🤯','🤮'];
+    const [ w ] = useGrids(faces.length, (i)=>({md:1/5, xl:i/15}));
     return (
         <div style={{display:"grid"}}>
             {faces.map( (face, i) =>
                 <div style={{width:w[i]}}>{face}</div>
             )}
         </div>
-    )
+    );
 };
 ```
 

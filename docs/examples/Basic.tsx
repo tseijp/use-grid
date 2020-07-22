@@ -1,11 +1,28 @@
 import React, {FC} from 'react'
 import {useMedia, useGrid} from '../../src'
 export const Basic:FC<any> = () => {
-    const isMedium = true//useMedia({minWidth:720, maxWidth:960});
-    const fontSize = 50//useGrid({xs:"2em", md:"50px", xl:"75px"});
+    const isMedium = useMedia({ minWidth:720, maxWidth:960 });
+    const [ fontSize, set ]  = useGrid({ md:50, lg:75 });
     return (
-        <div style={{fontSize}}>
+        <div style={{fontSize, textAlign:"center"}}
+            onClick={ () => set((p:any)=>({md:p.lg,lg:p.md})) }>
             {isMedium?'😃':'😢'}
         </div>
     );
 };
+
+export const BasicCode = `
+import React, {FC} from 'react'
+import {useMedia, useGrid} from 'use-grid'
+
+export const Basic:FC<any> = () => {
+    const isMedium = useMedia({ minWidth:720, maxWidth:960 });
+    const [ fontSize, set ]  = useGrid({ md:50, lg:75 });
+    return (
+        <div style={{fontSize, textAlign:"center"}}
+            onClick={ () => set((p:any)=>({md:p.lg,lg:p.md})) }>
+            {isMedium?'😃':'😢'}
+        </div>
+    );
+};
+`

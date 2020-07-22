@@ -1,29 +1,22 @@
 import React, {FC, useState, useMemo} from 'react';
 import ReactDOM from 'react-dom';
 import { unregister } from './serviceWorker';
-import { useGrid,useGrids } from '../src';
-import { Pills, Sides, Trans, Notes } from './components'
-//import { Basic, Grid, Test } from './examples'
+import { useGrid } from '../src';
+import { Codes, Notes, Pills, Sides, Trans } from './components'
+import { Basic, BasicCode, Grid, GridCode } from './examples'
+
+//import Mdmd from '@tsei/mdmd';
+
 import './styles.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-
-//import { atomOneLight as style } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-//import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-/* TODO 07171600
-const Codes :FC<any> = () => {
-    return <div>Codes</div>
-}
-*/
 const App :FC = () => {
     /* state */
     const [lang, setLang] = useState<string>('Ja')
     const [dark, setDark] = useGrid<boolean>({md:false, lg:true})
-    const [open, setOpen] = useGrid<boolean>({md:false, lg:true}) // DEV
-    //const [home, setHome] = useGrid<boolean>({md:false, lg:true}) // DEV
     const [size, setSize] = useGrid<number> ({md:50   , lg:75  })
-    const width = 500//home ? 500 : 750//useGrid<number>({xs:3/5, md:500, lg:750})// DEV
+    const [width] = useGrid<number>({xs:4/5, md:500, lg:750})
     const style = useMemo<React.CSSProperties>(()=>({
         background:dark?"#212121":"#fff",boxShadow:"0px 1px 50px rgba(0,0,0,0.2)",
         color     :dark?"#818181":"#000",borderRadius:`${size/2}px`,
@@ -36,15 +29,14 @@ const App :FC = () => {
     return (
         <div style={{background:dark?"#000":"#fff",transition:"1s",padding:size*2,}}>
             <div style={{color:dark?"#818181":"#000", fontSize:size}}>Examples</div>
-            <Notes {...{size, style, width, height:200, toggleRight}}>
+            <Notes {...{style, size, width, height:200, toggleRight}}>
                 <div>
-                    <div>Examples</div>
-                    <div>Codes1</div>
-                    <div>Codes2</div>
-                    <div>API</div>
+                    <Basic/>
+                    <Codes {...{dark, code:BasicCode}} />
                 </div>
                 <div>
-                    <div>TODO</div>
+                    <Grid />
+                    <Codes {...{dark, code:GridCode}}/>
                 </div>
             </Notes>
             <Sides {...{size, width}}>
@@ -55,7 +47,6 @@ const App :FC = () => {
             <Trans {...{size, width}}>
                 <div onClick={()=>setLang(p=>p!=='Ja'?'Ja':'En')}>{lang}</div>
                 <div onClick={()=>setDark( (p:any)=>({md:p.lg,lg:p.md}) )}>{dark?'🌛':'🌞'}</div>
-                <div onClick={()=>setOpen( (p:any)=>({md:p.lg,lg:p.md}) )}>{open?'🙄':'🤣'}</div>
                 <div onClick={()=>setSize( (p:any)=>({md:p.lg,lg:p.md}) )}>{size<75?'👶':'👨'}</div>
             </Trans>
             <Pills {...{size, width, dark}}>
