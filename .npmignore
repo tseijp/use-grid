@@ -2,12 +2,13 @@
 .gitignore
 .npmignore
 /build
+/dist
 /docs
 /node_modules
 /public
 /scripts
-/src
+#/src
 config-overrides.js
 config-rollup.js
 package-lock.json
-tsconfig.json
+#tsconfig.json

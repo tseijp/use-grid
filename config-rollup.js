@@ -1,27 +1,59 @@
-import babel from 'rollup-plugin-babel';
-import replace from 'rollup-plugin-replace';
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
+import { promises as fs } from 'fs';
+//import dts from "rollup-plugin-dts";
+import babel from '@rollup/plugin-babel';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+//import typescript from 'rollup-plugin-typescript2'
+//import typescript from '@rollup/plugin-typescript';
+//import { sizeSnapshot } from 'rollup-plugin-size-snapshot'// TODO sizeSnapshot()
+//import { terser } from "rollup-plugin-terser";            // TODO terser()
+//import size from 'rollup-plugin-size';                    // TODO size()
 import pkg from './package.json';
 
+const input = 'src/index'
+const external = Object.keys({...pkg.dependencies,...pkg.devDependencies})
+const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
-const namedExports = {'node_modules/react/index.js':['Component','useState',]};
-const external = Object.keys(pkg.dependencies || {});
-const presets = ['@babel/env', '@babel/preset-react'];
-const plugins = [
-    babel({presets, runtimeHelpers:true, exclude:'node_modules/**'}),
-    replace({'process.env.NODE_ENV':JSON.stringify('production')}),
-    commonjs({namedExports}),
-    nodeResolve({ browser:true }),
-    typescript({lib:["dom","dom.iterable","esnext"], target: "es5"})
-];
+function babelOption (useESModules) {
+    return {
+        babelrc:false,
+        exclude:'**/node_modules/**',
+        extensions,
+        babelHelpers:'runtime',
+        presets : [
+            ['@babel/env', {loose:true, modules:false}],
+             '@babel/preset-react','@babel/preset-typescript'
+        ],
+        plugins : [
+            [ '@babel/proposal-class-properties'         ,    {loose:true} ],
+            [ '@babel/plugin-proposal-object-rest-spread',    {loose:true} ],
+            [ 'transform-react-remove-prop-types',     {removeImport:true} ],
+            [ '@babel/transform-runtime', {regenerator:false,useESModules} ],
+        ],
+    }
+}
 
-export default {
-    input: './src/index.ts',
-    output:[
-        { file:pkg.main   , format:'cjs' },
-        { file:pkg.module , format:'es'  }],
-    external,
-    plugins,
-};
+function targetTypings(out) {
+  return {
+    writeBundle () {
+      return fs.lstat(pkg.types).catch(() => {
+        return fs.writeFile(pkg.types, `export * from "./${input}"`)
+      })
+    }
+  }
+}
+
+export default [
+    { input, output:{file:pkg.main   ,format:'cjs'}, external, plugins:[
+        babel( babelOption(true) ),
+        commonjs({extensions}),
+        resolve ({extensions}),
+        targetTypings(),
+    ]},
+    { input, output:{file:pkg.module ,format:'esm'}, external, plugins:[
+        babel( babelOption(false) ),
+        commonjs({extensions}),
+        resolve ({extensions}),
+        targetTypings(),
+    ] },
+]

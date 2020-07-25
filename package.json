@@ -1,12 +1,14 @@
 {
   "name": "use-grid",
-  "version": "0.5.0",
-  "main": "dist/main.js",
-  "module": "dist/module.es.js",
+  "version": "0.7.0",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "main": "index.cjs.js",
   "private": false,
   "license": "MIT",
   "author": "tseijp",
   "homepage": "tsei.jp",
+  "sideEffects": false,
   "repository": "https://github.com/tseijp/use-grid",
   "bugs": "https://github.com/tseijp/use-grid/issues",
   "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
@@ -43,7 +45,10 @@
     ]
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^5.0.1",
+    "@rollup/plugin-babel": "^5.1.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-typescript": "^5.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -53,6 +58,7 @@
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "cross-env": "^7.0.2",
+    "fs": "0.0.1-security",
     "react-app-rewired": "^2.1.6",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -60,10 +66,7 @@
     "react-syntax-highlighter": "^12.2.1",
     "react-use-gesture": "^7.0.15",
     "rollup": "^2.21.0",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "use-grid": "^0.6.0"
   }
 }
