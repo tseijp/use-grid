@@ -1,9 +1,9 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useState, useRef} from 'react';
 import ReactDOM from 'react-dom';
 //import Mdmd from '@tsei/mdmd';
 import { Head, Icon, Pills, Sides, Trans } from '@tsei/core'
 import { unregister } from './serviceWorker';
-import { useGrid, useMedia } from '../src';
+import { useGrid, useView } from '../src';
 //import { Basic, BasicCode, Grid, GridCode } from './examples'
 
 import './styles.css'
@@ -17,16 +17,17 @@ const App :FC = () => {
     const [dark, setDark] = useGrid<boolean>({md:false, lg:true})
     const [size, setSize] = useGrid<number> ({md:1    , lg:1.5 })
     //const [fontSize,set] = useGrid({"hover:hover":100, "hover:none":200})
-    const hover = useMedia('(hover:hover)')
+    const ref = useRef(null)
+    const isView = useView(ref)
     //const [none, setNone] = useGrid<boolean>({md:false,none:true})
     return (
         <div style={{background:dark?"#000":"#fff",minHeight:"100%",padding:size*100,}}>
             <Head {...{size,dark}}>Examples</Head>
             <div style={{textAlign:"center"}}>
-                <div style={{fontSize:hover?200:100}}>😎</div>
-            {/*[...Array(20)].map((_,key:number)=>
-                <p> <Icon {...{key,size}} fa="home" /> </p>
-            )*/}
+                {[...Array(20)].map((_,key:number)=>
+                    <p> <Icon {...{key,size}} fa="home" /> </p>
+                )}
+                <div ref={ref} style={{fontSize:isView?200:100,transition:"1s"}}>{'😎'}</div>
             </div>
             <Sides {...{size}}>
                 <p onClick={()=>window.location.href="/note"}>Note</p>

@@ -9,13 +9,14 @@ type BasicAction<T> = (fn:BasicState<T>) => void
 
 const createGrid = (effect:Effect) => <T extends any>(
     initialGrid:BasicProps<GP<T>>,
+    target?:React.RefObject<Element> | Element | null,
     initialConfig={},
 ) : [T, BasicAction<GP<T>>] => {
+    // ********** ➊ grid : output value that match your media query ********** //
     if (typeof initialGrid === 'function')
         initialGrid = initialGrid()
-    // ********** ➊ grid : output value that match your media query ********** //
     const gridRef = useRef<GP<T>>(initialGrid)
-    const [list, setList] = useState<[string,T][]>( cP2L(initialGrid, initialConfig) ) // md => max...
+    const [list, setList] = useState<[string,T][]>( cP2L(initialGrid, initialConfig) )
     const [grid, setGrid] = useState<T>(list[0][1])
 
     // ********** ➋ set : Functions to change media conditions later ********** //
@@ -29,15 +30,16 @@ const createGrid = (effect:Effect) => <T extends any>(
     /********** ➌ remove : Remove grid from state ********** //
     const removeGrid = useCallback(()=>{
         return //TODO
-    }, [])
-    */
-    // ********** ➍ effect : Set to track condition ********** //
+    }, [])*/
 
+    // ********** ➍ effect : Set to track condition ********** //
     effect ( () => {
         let mounted = true;
         const medias = list.map( ([query,value]:[string,any]) => {
-            const media = typeof window==="undefined"? defaultMedia:window.matchMedia(query)
-            const onChange =()=> mounted && Boolean(media.matches) && setGrid(value)
+            const media = typeof window==="undefined"
+                ? defaultMedia
+                : window.matchMedia(query)
+            const onChange=()=>mounted&&Boolean(media.matches)&&setGrid(value)
             media.addListener(onChange);
             mounted && Boolean(media.matches) && setGrid(value);
             return {media, onChange}

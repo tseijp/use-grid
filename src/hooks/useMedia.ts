@@ -1,3 +1,7 @@
+// ************************************************** //
+// * Ref : https://github.com/streamich/use-media
+// ************************************************** //
+
 import {useLayoutEffect, useEffect, useState, /*useRef*/} from 'react';
 import {Effect, MediaObject, MediaString, } from '../types'
 import {defaultMedia, convertObjToStr} from '../utils'

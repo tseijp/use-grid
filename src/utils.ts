@@ -82,3 +82,25 @@ export function convertFuncToList <T=any> (
     const toT =(st:{[key:string]:T}[])=>Object.keys(st[0]).map((k:string)=>({[k]:st.map((s:any)=>s[k])}))
     return Object.assign({},...toT( toL(initialFunc) ))
 }
+
+
+
+// ************************* 🥰 shallowEqual 🥰 ************************* //
+// * Ref : https://github.com/dashed/shallowequal/blob/master/index.js
+// ************************* ******************* ************************* //
+export function shallowEqual(objA:any, objB:any) {
+    if (objA===objB)
+        return true;
+    if (typeof objA!=="object" || !objA|| typeof objB!=="object" || !objB)
+        return false;
+    const keysA = Object.keys(objA), keysB = Object.keys(objB);
+    if (keysA.length !== keysB.length)
+        return false;
+    const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
+    for (var idx = 0; idx < keysA.length; idx++) {
+        const key = keysA[idx];
+        if (!bHasOwnProperty(key) || objA[key]!==objB[key])
+            return false;
+    }
+    return true;
+};
