@@ -1,8 +1,7 @@
 //import {useLayoutEffect, useEffect, useState, useRef} from 'react';
-import {/*Effect,*/ GridProps as G, MediaList, MediaObject, MediaString} from './types'
+import {GridProps as G, MediaList, MediaObject, MediaString, Config} from './types'
 
-
-export const mockMediaString : MediaString = {
+export const defaultMedia : MediaString = {
     media: '',
     matches: false,
     onchange: ()=>{},
@@ -12,18 +11,13 @@ export const mockMediaString : MediaString = {
     removeEventListener: ()=>{},
     dispatchEvent: (_: Event) => true,
 };
-interface Config {
-    size:{[key:string]:number},
-    width:number,
-    widthRef:any,
-}
 export const defaultConfig : Config = {
     size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
     width : window.innerWidth,
     widthRef:null,
+    mediaType:"all",
 }
-
-export function convertNumToPix <T=any> (value:T, config:Config) :T {
+export function convertNumToPix <T=any> (value:T, config:Config):T {
     const width = config.widthRef?.current?.offsetWidth || config.width
     if ( typeof value==="number" && value < 1 )
         return ~~( Number(value) * width ) as unknown as T
@@ -31,58 +25,55 @@ export function convertNumToPix <T=any> (value:T, config:Config) :T {
         return value.map(v=> ~~( Number(v) * width )) as unknown as T
     return value
 }
-
-export function convertObjToStr (
-    query:string|MediaObject,
+// ************************* 📺 useMedia 📺 ************************* //
+export function convertObjToStr<T=string|number|boolean>(
+    query:string|MediaObject<T>,
     initialConfig = {},
 ) : string {
+    if (typeof query==='string') return query;
     const config = {...defaultConfig, ...initialConfig}
-    if (typeof query === 'string') return query;
-    const toS = ([key, val]:[string,string|number|boolean]) => {
-        const feature = key.replace(/[A-Z]/g,s=>`-${s.toLowerCase()}`).toLowerCase();
-        if ( typeof val==='boolean' ) return `${val?'':'not '}${feature}`;
-        const isN = typeof val==='number' && /[height|width]$/.test(feature)// ?
-        return `(${feature}: ${isN ? `${ convertNumToPix(val,config) }px` : val})`;
-    }
-    return Object.entries(query).map(toS).join(' and ');
+    return [ config.mediaType, ...Object
+        .entries(query)
+        .map( ([key,val]:[string,T]) : [string,T] =>
+            [ key.replace(/[A-Z]/g,s=>`-${s.toLowerCase()}`).toLowerCase(), val ])
+        .map( ([key,val]:[string,T]) : string => (typeof val==='boolean')
+          ? `${val?'':'not '}${key}`
+          : `(${key}: ${  typeof val==='number' && /[height|width]$/.test(key)
+              ? `${convertNumToPix(val,config)}px`
+              : val })`)
+    ].join(' and ');
 }
-
+// ************************* 👌 useGrid 👌 ************************* //
 export function convertPropsToList <T=any> (
     initialProps:G<T>,
     initialConfig = {}
 ) : [string,T][] {
     const config = {...defaultConfig, ...initialConfig}
     const keys = Object.keys(config.size)
-    const toN = (key:string) : number => {
-        if ( keys.find(k=>k===key) )
-            return config.size[key]
-        return 0
-    }
-    const toS = (key:string, next:string|null) : string => {
-        const turn:string = next!==null ? ` and (max-width:${toN(next)-1}px)` : ''
-        return `(min-width:${toN(key)}px)${turn}`
-    }
-    const getMedia = (props:[string,T][]) : [string,T][] => { // [[sm,red], [md,blue], ...]
-        const grid:[string,T][]=keys.map(s=>props.find(p=>p[0]===s)||null).filter((m):m is [string,T]=>m!==null)
-        const xsGr:[string,T][]=(grid.length)? grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]] : []
-        const noGr:[string,T][]=(grid.length)? props.filter(p=>!keys.find(s=>s===p[0]))         : props
-        const grds:[string,T][]=[...xsGr,...grid].map((g,i)=>[ toS(g[0], i<grid.length-1?grid[i+1][0]:null), g[1] ])
-        return [...noGr, ...grds]
+    const toN = (key:string):number => keys.find(k=>k===key)? config.size[key] : 0
+    const toS = (key:string,next:any):string => `(min-width:${ toN(key) }px)${
+        typeof next==="string" ? ` and (max-width:${toN(next)-1}px)` : ''
+    }`
+    const getMedia = (props:[string,T][]) : [string,T][] => {
+        const grid = keys.map(s=>props.find(p=>p[0]===s)||null).filter((m):m is [string,T]=>m!==null)
+        const xsGr = (grid.length)?grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]as[string,T]]:[]
+        const gtos = [...xsGr,...grid].map((g,i)=>[ toS(g[0],i+1-grid.length<0&&grid[i+1][0]),g[1] ])
+        const noGr = (grid.length)?props.filter(p=>!keys.find(s=>s===p[0])) : props
+        return [...noGr, ...gtos] as [string,T][]
     }
     if ( !initialProps?.length )
         initialProps = Object.entries(initialProps)// as MediaList<T>[]
-    return getMedia((initialProps as MediaList<T>[]).map( ([key,val])=>[
+    return getMedia( (initialProps as MediaList<T>[]).map( ([key,val])=>[
             convertObjToStr(key, config),
             convertNumToPix<T>(val, config)
         ]) )
 }
-
-/* Caution!
-Inputting an array as "return value of initialFunc" is not yet implemented.
-That is, it supports only the left side of the following types
-    GridProps<T=any> = {[key:string]:T} | MediaList<T>[]
-So you cant use G<T> Type as previous code!
-*/
+// ************************* 👌👌 useGrids 👌👌 ************************* //
+// *Inputting an array as "return value of initialFunc" is not yet implemented.
+// *That is, it supports only the left side of the following types
+// *    GridProps<T=any> = {[key:string]:T} | MediaList<T>[]
+// *So you cant use G<T> Type as previous code!
+// *********************************************************** //
 export function convertFuncToList <T=any> (
     length:number,
     initialFunc:(i:number)=>{[key:string]:T}

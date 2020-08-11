@@ -3,8 +3,6 @@ import { promises as fs } from 'fs';
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-//import typescript from 'rollup-plugin-typescript2'
-//import typescript from '@rollup/plugin-typescript';
 //import { sizeSnapshot } from 'rollup-plugin-size-snapshot'// TODO sizeSnapshot()
 //import { terser } from "rollup-plugin-terser";            // TODO terser()
 //import size from 'rollup-plugin-size';                    // TODO size()
@@ -45,15 +43,15 @@ function targetTypings(out) {
 
 export default [
     { input, output:{file:pkg.main   ,format:'cjs'}, external, plugins:[
-        babel( babelOption(true) ),
-        commonjs({extensions}),
-        resolve ({extensions}),
-        targetTypings(),
-    ]},
+            babel( babelOption(true) ),
+            commonjs({extensions}),
+            resolve ({extensions}),
+            targetTypings(),
+    ] },
     { input, output:{file:pkg.module ,format:'esm'}, external, plugins:[
-        babel( babelOption(false) ),
-        commonjs({extensions}),
-        resolve ({extensions}),
-        targetTypings(),
+            babel( babelOption(false) ),
+            commonjs({extensions}),
+            resolve ({extensions}),
+            targetTypings(),
     ] },
 ]
