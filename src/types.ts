@@ -11,23 +11,24 @@ export type MediaObject<T=string|number|boolean> = {[key:string]:T};
 // ************************* 👀 useView 👀 ************************* //
 export type ViewChangeHandler = (entry: IntersectionObserverEntry) => void
 export interface ViewOptions {
+    [key:string]:any,
     root?: React.RefObject<Element>,
     rootMargin?: string,
     threshold?: number|number[],
     timeout?: number,
     once?: boolean,
-    defaultIntersecting?: boolean
+    defaultView?: boolean
 }
 // ************************* 👌 useGrid 👌 ************************* //
 export type MediaList<T=any> = [string|MediaObject, T];
 export type GridProps<T=any> = {[key:string]:T} | MediaList<T>[]
-export interface Config {
-    [key:string]:any,
+export interface Config extends ViewOptions {
     size:{[key:string]:number},
     width:number,
     widthRef:any,
-    mediaType:mediaType,
+    mediaType?:mediaType,
 }
 export type mediaType =
+  | null
   | "all"
   | "screen"

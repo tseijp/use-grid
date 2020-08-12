@@ -14,7 +14,7 @@
 <br>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
 <a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.7.3-green.svg"/></a>
-<>
+<br>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
 a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
@@ -37,7 +37,7 @@ npm i use-grid
 ```bash
 git clone github.com/tseijp/use-grid
 cd use-grid
-npm i
+npm i -D
 npm start
 ```
 * open browser and visit [localhost:3000](http://localhost:3000/)
@@ -50,13 +50,13 @@ __switch by media query__
 import React from 'react'
 import {useMedia, useGrid} from 'use-grid'
 export const App = () => {
-    const isHover = useMedia({ xs:720, hover:960 });
+    const isMedium     = useMedia({ minWidth:720, maxWidth:960 });
     const [ fontSize ] = useGrid({ xs:"2em", md:"50px", xl:"75px" });
-    const [ width, set ] = useGrid({ xs:8/9  , md:1/3   , lg:1/4 });
+    const [ width,set ] = useGrid({ xs:8/9  , md:1/3   , lg:1/4 });
     return (
         <div style={{fontSize, width}}
             onClick={ () => set((p)=>({md:p.lg,lg:p.md})) }>
-            {isHover?'😃':'😢'}
+            {isMedium?'😃':'😢'}
         </div>
     );
 };

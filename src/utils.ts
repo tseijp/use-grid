@@ -15,7 +15,7 @@ export const defaultConfig : Config = {
     size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
     width : window.innerWidth,
     widthRef:null,
-    mediaType:"all",
+    mediaType:null,
 }
 export function convertNumToPix <T=any> (value:T, config:Config):T {
     const width = config.widthRef?.current?.offsetWidth || config.width
@@ -32,7 +32,7 @@ export function convertObjToStr<T=string|number|boolean>(
 ) : string {
     if (typeof query==='string') return query;
     const config = {...defaultConfig, ...initialConfig}
-    return [ config.mediaType, ...Object
+    return [ config.mediaType||'', ...Object
         .entries(query)
         .map( ([key,val]:[string,T]) : [string,T] =>
             [ key.replace(/[A-Z]/g,s=>`-${s.toLowerCase()}`).toLowerCase(), val ])
@@ -41,32 +41,43 @@ export function convertObjToStr<T=string|number|boolean>(
           : `(${key}: ${  typeof val==='number' && /[height|width]$/.test(key)
               ? `${convertNumToPix(val,config)}px`
               : val })`)
-    ].join(' and ');
+    ].filter(v=>v).join(' and ');
 }
 // ************************* 👌 useGrid 👌 ************************* //
+// * convertPropsToList
+// *     {md:0, lg:.5, {min...}:1}      =Object.entries=>
+// *     [[md,0],[lg,.5],[min...,1]]    =[convertObjToStr,convertNumToPix]=>
+// *     [[md,0],[lg:100],[min...,200]] =convertPrefixToList=>
+// *     [['min-width...',0],[min-width...,.5]]
+// ************************* ************* ************************* //
+export function convertPrefixToList <T=any>(
+    props:[string,T][],
+    config:Config
+) : [string,T][] {
+    const keys = Object.keys(config.size)
+    const toN = (key:string) :number => keys.find(k=>k===key)? config.size[key] : 0
+    const toS = (key:string,i:number,grid:[string,T][]) =>`(min-width:${ toN(key) }px)${
+        i+1-grid.length<0 ? ` and (max-width:${toN(grid[i+1][0])-1}px)` : ''
+    }`
+    const rmNone =(key:string):string=>key.replace(/(-none|none)/gi, '') // ??
+    const grid = keys.map(s=>props.find(p=>p[0]===s)||null).filter(m=>m!==null) as [string,T][]
+    const xsGr = (grid.length)?grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]] as [string,T][]:[]
+    const gtos = [...xsGr,...grid].map((g,i)=>[toS(rmNone(g[0]),i,grid), g[1]]) as [string,T][]
+    const noGr = (grid.length)?props.filter(p=>!keys.find(s=>s===p[0])) : props
+    return [...noGr, ...gtos] // as [string,T][]
+}
 export function convertPropsToList <T=any> (
     initialProps:G<T>,
     initialConfig = {}
 ) : [string,T][] {
     const config = {...defaultConfig, ...initialConfig}
-    const keys = Object.keys(config.size)
-    const toN = (key:string):number => keys.find(k=>k===key)? config.size[key] : 0
-    const toS = (key:string,next:any):string => `(min-width:${ toN(key) }px)${
-        typeof next==="string" ? ` and (max-width:${toN(next)-1}px)` : ''
-    }`
-    const getMedia = (props:[string,T][]) : [string,T][] => {
-        const grid = keys.map(s=>props.find(p=>p[0]===s)||null).filter((m):m is [string,T]=>m!==null)
-        const xsGr = (grid.length)?grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]as[string,T]]:[]
-        const gtos = [...xsGr,...grid].map((g,i)=>[ toS(g[0],i+1-grid.length<0&&grid[i+1][0]),g[1] ])
-        const noGr = (grid.length)?props.filter(p=>!keys.find(s=>s===p[0])) : props
-        return [...noGr, ...gtos] as [string,T][]
-    }
     if ( !initialProps?.length )
-        initialProps = Object.entries(initialProps)// as MediaList<T>[]
-    return getMedia( (initialProps as MediaList<T>[]).map( ([key,val])=>[
-            convertObjToStr(key, config),
-            convertNumToPix<T>(val, config)
-        ]) )
+        initialProps = Object.entries(initialProps)
+    const prefix = (initialProps as MediaList<T>[]).map( ([key,val])=>[
+        convertObjToStr(key, config),
+        convertNumToPix<T>(val, config)
+    ]) as [string,T][]
+    return convertPrefixToList<T>(prefix, config)
 }
 // ************************* 👌👌 useGrids 👌👌 ************************* //
 // *Inputting an array as "return value of initialFunc" is not yet implemented.
@@ -82,8 +93,6 @@ export function convertFuncToList <T=any> (
     const toT =(st:{[key:string]:T}[])=>Object.keys(st[0]).map((k:string)=>({[k]:st.map((s:any)=>s[k])}))
     return Object.assign({},...toT( toL(initialFunc) ))
 }
-
-
 
 // ************************* 🥰 shallowEqual 🥰 ************************* //
 // * Ref : https://github.com/dashed/shallowequal/blob/master/index.js

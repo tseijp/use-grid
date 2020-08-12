@@ -1,5 +1,5 @@
 import { useGrid } from './useGrid'
-import { convertFuncToList as cF2L} from '../utils'
+import { defaultConfig, convertFuncToList as cF2L} from '../utils'
 
 type FunctionProps<T>  = (i:number) => {[key:string]:T}    // (()=>T) |   //TODO
 // type FunctionState<T>  = (i:number) => ((pre:T)=>T) | T                //TODO
@@ -8,10 +8,10 @@ type FunctionAction<T> = (fn:FunctionProps<T>) => void
 export const useGrids = <T extends any> (
     length:number,
     initialFunc:FunctionProps<T>,//(i:number)=>BasicProps<T>,
-    target?:React.RefObject<Element> | Element | null,
-    initialConfig={}
+    targets?:React.RefObject<Element>[] | Element[] | null,
+    initialConfig=defaultConfig,
 ) : [T[], FunctionAction<T>] => {
-    const [grids, set] = useGrid<[]>( cF2L<T>(length, initialFunc), target, initialConfig)
+    const [grids, set] = useGrid<[]>( cF2L<T>(length, initialFunc), targets, initialConfig)
     const setGrid = (f:FunctionProps<T>) => set( cF2L(length, f) )
     return [grids, setGrid]
 }

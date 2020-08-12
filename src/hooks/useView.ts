@@ -5,30 +5,30 @@ import {shallowEqual} from '../utils'
 const createView = (effect:Effect) => (
     target: React.RefObject<Element> | Element | null,
     callback?: ViewChangeHandler,
-    { defaultIntersecting, once, timeout=0, ...initialOptions }: ViewOptions = {},
+    { defaultView, once, timeout=0, ...initialConfig }: ViewOptions = {},
 ) => {
-    const [view,set] = useState<boolean>(defaultIntersecting===true)
-    const optionsRef = useRef(initialOptions)
+    const [view,set] = useState<boolean>(defaultView===true)
+    const configRef = useRef(initialConfig)
     effect(() => {
-        if (!shallowEqual(optionsRef.current, initialOptions))
-            optionsRef.current = initialOptions
-    }, [initialOptions] )
+        if (!shallowEqual(configRef.current, initialConfig))
+            configRef.current = initialConfig
+    }, [initialConfig] )
     effect(() => {
         let mounted = true;
         const element = target instanceof Element?target:target&&target.current
-        if ( !element ) return
+        if ( !element ) return ()=>{mounted = false;}
         const observer = new IntersectionObserver( (entries) => {
             const entry = entries[entries.length-1]
             callback && callback(entry);
             mounted  && setTimeout(()=>set(entry.isIntersecting), timeout)
             mounted  && entry.isIntersecting && once && observer.unobserve(element);
-        } , { ...optionsRef.current, root:optionsRef.current?.root?.current || null })
+        } , { ...configRef.current, root:configRef.current?.root?.current || null })
         observer.observe(element)
         return ()=>{
             mounted = false;
             once && observer.unobserve(element)
         }
-    }, [optionsRef.current, target])
+    }, [configRef.current, target])
     return view
 }
 
