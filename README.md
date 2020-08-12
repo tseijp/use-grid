@@ -1,11 +1,12 @@
 
 <h1 align="center">️🤏 use-grid</h1>
-<p  align="center">
-    🤏 <strong>use-grid</strong> is
-    a hook to build responsive layouts of all shapes and sizes, <br>
-    a fork of 👌 <strong>use-media</strong> that track the state of CSS media queries, <br>
-    and remake of 🅱 <strong>bootstrap</strong> grid system thanks to column system and five responsive tiers.
-</p>
+<p align="center"> 🤏 <strong>use-grid</strong> is</p>
+<ul  align="center">
+<li>a hook to build responsive layouts of all shapes and sizes, </li>
+<li>a fork of 👌 <strong><a href="https://github.com/streamich/use-media">use-media</a></strong> that track the state of CSS media queries, </li>
+<li>a fork of 👌 <strong><a href="https://github.com/cats-oss/use-intersection">use-intersection</a></strong> that track whether the target intersects.</li>
+<li>and remake of 🅱 <strong><a href="https://getbootstrap.com/docs/4.2/layout/grid/">bootstrap</a></strong> grid system thanks to responsive column system.</li>
+</ul>
 
 <p align="center">
 <a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
@@ -13,7 +14,7 @@
 <a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
 <br>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.7.3-green.svg"/></a>
+<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.7.4-green.svg"/></a>
 <br>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
 a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
@@ -48,14 +49,14 @@ npm start
 __switch by media query__
 ```js
 import React from 'react'
-import {useMedia, useGrid} from 'use-grid'
+import { useMedia, useGrid } from 'use-grid'
 export const App = () => {
-    const isMedium     = useMedia({ minWidth:720, maxWidth:960 });
-    const [ fontSize ] = useGrid({ xs:"2em", md:"50px", xl:"75px" });
-    const [ width,set ] = useGrid({ xs:8/9  , md:1/3   , lg:1/4 });
+    const isMedium      = useMedia({ minWidth:720, maxWidth:960 });
+    const [ fontSize ]  = useGrid({ xs:"2em", md:"50px", xl:"75px" });
+    const [ width,set ] = useGrid({ xs:8/9  , md:500   , lg:750    });
     return (
         <div style={{fontSize, width}}
-            onClick={ () => set((p)=>({md:p.lg,lg:p.md})) }>
+            onClick={() => set((p)=>({md:p.lg,lg:p.md}))}>
             {isMedium?'😃':'😢'}
         </div>
     );
@@ -67,28 +68,40 @@ __use grid system__
 ```js
 import React from 'react'
 import { useGrids } from 'use-grid'
-
 export const App = () => {
-    const faces = ['🙄','🤣','🧐','🤯','🤮'];
-    const [ws] = useGrids(faces.length, (i)=>({md:1/5, xl:i/15}));
+    const face = ['🙄','🤣','🧐','🤯','🤮'];
+    const ref  = React.useRef()
+    const [ws] = useGrids(faces.length, (i)=>(i%2===0)
+        ? { md: 1/5, xl:i/faces.length/3 }
+        : { md:1/10, xl:i/faces.length/6 }
+    , [ref]);
     return (
-        <div style={{display:"grid"}}>
-            {faces.map( (face, i) =>
-                <div style={{width:ws[i]}}>{face}</div>
+        <div ref={ref} style={{display:"grid", width:"95%"}}>
+            {face.map( (emoji, i) =>
+                <div style={{width:ws[i]}}>{emoji}</div>
             )}
         </div>
     );
 };
 ```
 
-__use view system (COMING SOON)__
+__use view system__
 
 ```js
+import React from 'react';
+import {useGrid, useView} from 'use-grid';
 export const App = () => {
-    const fontSize = useGrid({xs:200, xsNone:100, none:0})
+    const ref1 = React.useRef()
+    const ref2 = React.useRef()
+    const isView = useView(ref1)
+    const [fontSize] = useGrid({xs:200, xsNone:200, none:100}, [ref1, ref2])
     return (
-        <div style={fontSize, top:"150%", transition:"1s"}>
-            {`😎`}
+        <div style={{fontSize}}>
+            <div ref={ref1}>{'😎'}</div>
+            {[...Array(10)].map((_,i)=>
+                <div key={i}>{isView?'😘':'🤣'}</div>
+            )}
+            <div ref={ref2}>{'😎'}</div>
         </div>
     )
 }
@@ -101,11 +114,11 @@ export const App = () => {
 | `useGrid`         | make it switch value by media query with useEffect      |  
 | `useGrids`        | multiple values can be switched by media queries |  
 | `useMedia`        | get a match to media query with useEffect |  
-| `useView`         | Coming Soon |  
+| `useView`         | get a flag whether the target intersects |  
 | `useLayutGrid`    | work like useGrid  with useLayoutEffect |  
 | `useLayoutGrids`  | work like useGrids with useLayoutEffect |  
 | `useLayoutMedia`  | work like useMedia with useLayoutEffect |  
-| `useLayoutView`   | Coming Soon |  
+| `useLayoutView`   | work like useView  with useLayoutEffect |  
 
 ### Performance Pitfalls
 

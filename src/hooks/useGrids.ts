@@ -8,10 +8,10 @@ type FunctionAction<T> = (fn:FunctionProps<T>) => void
 export const useGrids = <T extends any> (
     length:number,
     initialFunc:FunctionProps<T>,//(i:number)=>BasicProps<T>,
-    targets?:React.RefObject<Element>[] | Element[] | null,
+    refs:React.RefObject<Element>[] | Element[] | [] = [],
     initialConfig=defaultConfig,
 ) : [T[], FunctionAction<T>] => {
-    const [grids, set] = useGrid<[]>( cF2L<T>(length, initialFunc), targets, initialConfig)
+    const [grids, set] = useGrid<[]>( cF2L<T>(length, initialFunc), refs, initialConfig)
     const setGrid = (f:FunctionProps<T>) => set( cF2L(length, f) )
     return [grids, setGrid]
 }

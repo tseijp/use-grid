@@ -13,17 +13,18 @@ import "mdbreact/dist/css/mdb.css";
 
 const App :FC = () => {
     /* state */
-    const [lang, setLang] = useState<string>(window?.navigator?.language||'ja')
-    const [dark, setDark] = useGrid<boolean>({md:false, lg:true})
-    const [size, setSize] = useGrid<number> ({md:1    , lg:1.5 })
-    //const [fontSize,set] = useGrid({"hover:hover":100, "hover:none":200})
     const ref1 = useRef(null)
     const ref2 = useRef(null)
-    const [none,] = useGrid<boolean>({md:false, none:true}, [ref1,ref2])
+    const [lang, setLang] = useState<string>(window?.navigator?.language||'ja')
+    const [dark, setDark] = [false,(f:any)=>null]//useGrid<boolean>({md:false, lg:true})
+    const [size, setSize] = [1    ,(f:any)=>null]//useGrid<number> ({md:1    , lg:1.5 })
+    const [fontSize,] = useGrid<number>({xs:150,none:100,init:0}, [ref1, ref2], {
+        onView:(b)=>console.log(b)
+    })
     return (
         <div style={{background:dark?"#000":"#fff",minHeight:"100%",padding:size*100,}}>
             <Head {...{size,dark}}>Examples</Head>
-            <div style={{textAlign:"center",fontSize:none?100:150,transition:"1s"}}>
+            <div style={{fontSize,textAlign:"center",transition:"1s"}}>
                 <div ref={ref1}>{'😎'}</div>
                 {[...Array(10)].map((_,key:number)=>
                     <div {...{key}}>{'😘'}</div>

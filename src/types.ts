@@ -17,15 +17,15 @@ export interface ViewOptions {
     threshold?: number|number[],
     timeout?: number,
     once?: boolean,
-    defaultView?: boolean
+    defaultView?: boolean,
+    onView?:null|((isView:boolean)=>void),
 }
 // ************************* 👌 useGrid 👌 ************************* //
 export type MediaList<T=any> = [string|MediaObject, T];
 export type GridProps<T=any> = {[key:string]:T} | MediaList<T>[]
 export interface Config extends ViewOptions {
-    size:{[key:string]:number},
-    width:number,
-    widthRef:any,
+    size?:{[key:string]:number},
+    width?:number,
     mediaType?:mediaType,
 }
 export type mediaType =

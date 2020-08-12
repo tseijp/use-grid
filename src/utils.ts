@@ -14,7 +14,6 @@ export const defaultMedia : MediaString = {
 export const defaultConfig : Config = {
     size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
     width : window.innerWidth,
-    widthRef:null,
     mediaType:null,
 }
 export function convertNumToPix <T=any> (value:T, config:Config):T {
@@ -52,10 +51,10 @@ export function convertObjToStr<T=string|number|boolean>(
 // ************************* ************* ************************* //
 export function convertPrefixToList <T=any>(
     props:[string,T][],
-    config:Config
+    {size={xs:1,sm:576,md:768,lg:992,xl:1200}}:Config
 ) : [string,T][] {
-    const keys = Object.keys(config.size)
-    const toN = (key:string) :number => keys.find(k=>k===key)? config.size[key] : 0
+    const keys = Object.keys(size)
+    const toN = (key:string) :number => keys.find(k=>k===key)? size[key] : 0
     const toS = (key:string,i:number,grid:[string,T][]) =>`(min-width:${ toN(key) }px)${
         i+1-grid.length<0 ? ` and (max-width:${toN(grid[i+1][0])-1}px)` : ''
     }`

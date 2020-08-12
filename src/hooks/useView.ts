@@ -5,7 +5,7 @@ import {shallowEqual} from '../utils'
 const createView = (effect:Effect) => (
     target: React.RefObject<Element> | Element | null,
     callback?: ViewChangeHandler,
-    { defaultView, once, timeout=0, ...initialConfig }: ViewOptions = {},
+    { defaultView=false, once=false, timeout=0, ...initialConfig }: ViewOptions = {},
 ) => {
     const [view,set] = useState<boolean>(defaultView===true)
     const configRef = useRef(initialConfig)
