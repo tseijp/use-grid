@@ -1,12 +1,5 @@
 
 <h1 align="center">️🤏 use-grid</h1>
-<p align="center"> 🤏 <strong>use-grid</strong> is</p>
-<ul  align="center">
-<li>a hook to build responsive layouts of all shapes and sizes, </li>
-<li>a fork of 👌 <strong><a href="https://github.com/streamich/use-media">use-media</a></strong> that track the state of CSS media queries, </li>
-<li>a fork of 👌 <strong><a href="https://github.com/cats-oss/use-intersection">use-intersection</a></strong> that track whether the target intersects.</li>
-<li>and remake of 🅱 <strong><a href="https://getbootstrap.com/docs/4.2/layout/grid/">bootstrap</a></strong> grid system thanks to responsive column system.</li>
-</ul>
 
 <p align="center">
 <a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
@@ -14,11 +7,18 @@
 <a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
 <br>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.7.4-green.svg"/></a>
-<br>
+<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.8.0-green.svg"/></a>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
 a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
+
+<p align="center"> 🤏 <strong>use-grid</strong> is</p>
+<ul  align="center">
+<li>a hook to build responsive layouts of all shapes and sizes, </li>
+<li>a fork of 👌 <strong><a href="https://github.com/streamich/use-media">use-media</a></strong> that track the state of CSS media queries, </li>
+<li>a fork of 👏 <strong><a href="https://github.com/cats-oss/use-intersection">use-intersection</a></strong> that track whether the target intersects, </li>
+<li>and remake of 🅱 <strong><a href="https://getbootstrap.com/docs/4.2/layout/grid/">bootstrap</a></strong> grid system thanks to responsive column system.</li>
+</ul>
 
 <hr>
 
@@ -94,9 +94,16 @@ export const App = () => {
     const ref1 = React.useRef()
     const ref2 = React.useRef()
     const isView = useView(ref1)
-    const [fontSize] = useGrid({xs:200, xsNone:200, none:100}, [ref1, ref2])
+    const [fontSize,set] = useGrid({md:100,lg:200}, [ref1])
+    const [background]   = useGrid({
+        xs:"#fff", none:"#000", init:"#000",
+        onView:(bool) =>
+            set(bool
+                ? {md:150, lg:250}
+                : {md:100, lg:200})
+    }, [ref1, ref2])
     return (
-        <div style={{fontSize}}>
+        <div style={{fontSize,background}}>
             <div ref={ref1}>{'😎'}</div>
             {[...Array(10)].map((_,i)=>
                 <div key={i}>{isView?'😘':'🤣'}</div>
@@ -115,7 +122,7 @@ export const App = () => {
 | `useGrids`        | multiple values can be switched by media queries |  
 | `useMedia`        | get a match to media query with useEffect |  
 | `useView`         | get a flag whether the target intersects |  
-| `useLayutGrid`    | work like useGrid  with useLayoutEffect |  
+| `useLayoutGrid`   | work like useGrid  with useLayoutEffect |  
 | `useLayoutGrids`  | work like useGrids with useLayoutEffect |  
 | `useLayoutMedia`  | work like useMedia with useLayoutEffect |  
 | `useLayoutView`   | work like useView  with useLayoutEffect |  
@@ -148,15 +155,15 @@ __same works__
 
 ```javascript
 export function Note ({children}) {
-    const width1 = useGrid({sm:1, md:1/2, lg:"75px"})
-    const width2 = useGrid({sm:"100%",md:"50px",lg:"75px"})
-    const width3 = useGrid([["sm","100%"], ["md":"50px"], ["lg":"75px"]])
+    const width1 = useGrid({sm:1, md:1/2, lg:"750px"})
+    const width2 = useGrid({sm:"100%",md:"50%",lg:"750px"})
+    const width3 = useGrid([["sm","100%"], ["md":"50%"], ["lg":"750px"]])
     const width4 = useGrid([[{                 maxWidth:"576px"}, "100%"],
-                            [{minWidth:"576px",maxWidth:"768px"}, "50px"],
-                            [{minWidth:"768px"                 }, "75px"]])
+                            [{minWidth:"576px",maxWidth:"768px"},  "50%"],
+                            [{minWidth:"768px"                 },"750px"]])
     const width5 = useGrid([[                    "max-width:576px", "100%"],
-                            ["min-width:576px and max-width:768px", "50px"],
-                            ["min-width:768px"                    , "75px"]])
+                            ["min-width:576px and max-width:768px",  "50%"],
+                            ["min-width:768px"                    ,"750px"]])
     const width =
        || width1
        || width2

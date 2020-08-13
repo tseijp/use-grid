@@ -16,13 +16,11 @@ const App :FC = () => {
     const ref1 = useRef(null)
     const ref2 = useRef(null)
     const [lang, setLang] = useState<string>(window?.navigator?.language||'ja')
-    const [dark, setDark] = [false,(f:any)=>null]//useGrid<boolean>({md:false, lg:true})
-    const [size, setSize] = [1    ,(f:any)=>null]//useGrid<number> ({md:1    , lg:1.5 })
-    const [fontSize,] = useGrid<number>({xs:150,none:100,init:0}, [ref1, ref2], {
-        onView:(b)=>console.log(b)
-    })
+    const [dark, setDark] = [false,(_:any)=>null]//useGrid<boolean>({md:false, lg:true})
+    const [size, setSize] = [1    ,(_:any)=>null]//useGrid<number> ({md:1    , lg:1.5 })
+    const [fontSize,] = useGrid<number>({xs:150,lgNone:10,none:100,init:0}, [ref1, ref2])
     return (
-        <div style={{background:dark?"#000":"#fff",minHeight:"100%",padding:size*100,}}>
+        <div style={{background:dark?"#000":"#fff",minHeight:"100%",padding:size*100}}>
             <Head {...{size,dark}}>Examples</Head>
             <div style={{fontSize,textAlign:"center",transition:"1s"}}>
                 <div ref={ref1}>{'😎'}</div>

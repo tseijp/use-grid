@@ -1,5 +1,5 @@
 //import {useLayoutEffect, useEffect, useState, useRef} from 'react';
-import {GridProps as G, MediaList, MediaObject, MediaString, Config} from './types'
+import {MediaList, MediaObject, MediaString, Config} from './types'
 
 export const defaultMedia : MediaString = {
     media: '',
@@ -12,12 +12,22 @@ export const defaultMedia : MediaString = {
     dispatchEvent: (_: Event) => true,
 };
 export const defaultConfig : Config = {
-    size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
-    width : window.innerWidth,
-    mediaType:null,
+    mediaConfig:{
+        size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
+        width : window.innerWidth,
+        widthRef:null,
+        mediaType:null,
+    },
+    viewConfig:{
+    },
+    extendKey : ['none','init','onView','config','mediaConfig','viewConfig']
 }
-export function convertNumToPix <T=any> (value:T, config:Config):T {
-    const width = config.widthRef?.current?.offsetWidth || config.width
+export function convertNumToPix <T=any> (
+    value:T, config:Config=defaultConfig
+):T {
+    const widthRef = config.widthRef
+    const element = widthRef instanceof Element?widthRef:widthRef?.current
+    const width = element ? element.clientWidth : window.innerWidth
     if ( typeof value==="number" && value < 1 )
         return ~~( Number(value) * width ) as unknown as T
     if ( value instanceof Array && value.every(v=>typeof v === "number") )
@@ -49,6 +59,15 @@ export function convertObjToStr<T=string|number|boolean>(
 // *     [[md,0],[lg:100],[min...,200]] =convertPrefixToList=>
 // *     [['min-width...',0],[min-width...,.5]]
 // ************************* ************* ************************* //
+export const mergeConfig = <T=any>(
+    props:MediaList<T>[], configs={}, fnName:string[]=[]
+) : Config => Object.assign({},
+    Object.fromEntries(props.filter(p=>fnName.some(key=>key===p[0]))),
+    ...Object.entries(configs).map(([key,config]:[string,any])=>({
+        ...(( props.find(p=>p[0]===key) || [null,{}] )[1]), ...config
+    }) ),
+)
+
 export function convertPrefixToList <T=any>(
     props:[string,T][],
     {size={xs:1,sm:576,md:768,lg:992,xl:1200}}:Config
@@ -58,21 +77,17 @@ export function convertPrefixToList <T=any>(
     const toS = (key:string,i:number,grid:[string,T][]) =>`(min-width:${ toN(key) }px)${
         i+1-grid.length<0 ? ` and (max-width:${toN(grid[i+1][0])-1}px)` : ''
     }`
-    const rmNone =(key:string):string=>key.replace(/(-none|none)/gi, '') // ??
+    //const rmNone =(key:string):string=>key.replace(/(-none|none)/gi, '') // ??
     const grid = keys.map(s=>props.find(p=>p[0]===s)||null).filter(m=>m!==null) as [string,T][]
     const xsGr = (grid.length)?grid.find(g=>g[0]==="xs")?[]:[["xs",grid[0][1]]] as [string,T][]:[]
-    const gtos = [...xsGr,...grid].map((g,i)=>[toS(rmNone(g[0]),i,grid), g[1]]) as [string,T][]
+    const gtos = [...xsGr,...grid].map((g,i)=>[toS(g[0],i,grid), g[1]])         as [string,T][]
     const noGr = (grid.length)?props.filter(p=>!keys.find(s=>s===p[0])) : props
     return [...noGr, ...gtos] // as [string,T][]
 }
 export function convertPropsToList <T=any> (
-    initialProps:G<T>,
-    initialConfig = {}
+    props:MediaList<T>[], config = {}
 ) : [string,T][] {
-    const config = {...defaultConfig, ...initialConfig}
-    if ( !initialProps?.length )
-        initialProps = Object.entries(initialProps)
-    const prefix = (initialProps as MediaList<T>[]).map( ([key,val])=>[
+    const prefix = props.map( ([key,val])=>[ //TODO
         convertObjToStr(key, config),
         convertNumToPix<T>(val, config)
     ]) as [string,T][]
@@ -85,8 +100,7 @@ export function convertPropsToList <T=any> (
 // *So you cant use G<T> Type as previous code!
 // *********************************************************** //
 export function convertFuncToList <T=any> (
-    length:number,
-    initialFunc:(i:number)=>{[key:string]:T}
+    length:number, initialFunc:(i:number)=>{[key:string]:T}
 ) {
     const toL =(fn:(i:number)=>{[key:string]:T}) => [...Array(length)].map( (_,i:number) => fn(i) )
     const toT =(st:{[key:string]:T}[])=>Object.keys(st[0]).map((k:string)=>({[k]:st.map((s:any)=>s[k])}))
