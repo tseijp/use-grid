@@ -1,10 +1,10 @@
-import React, {FC, useState, useRef} from 'react';
+import React, {FC, useState} from 'react';
 import ReactDOM from 'react-dom';
-//import Mdmd from '@tsei/mdmd';
-import { Head, Icon, Pills, Sides, Trans } from '@tsei/core'
+import { Head, Icon, Card, Pills, Sides, Trans } from '@tsei/core'
 import { unregister } from './serviceWorker';
-import { useGrid } from '../src';
-//import { Basic, BasicCode, Grid, GridCode } from './examples'
+import * as Examples from './examples'
+import { useGrid } from '../src'
+//import Mdmd from '@tsei/mdmd';
 
 import './styles.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -13,22 +13,23 @@ import "mdbreact/dist/css/mdb.css";
 
 const App :FC = () => {
     /* state */
-    const ref1 = useRef(null)
-    const ref2 = useRef(null)
     const [lang, setLang] = useState<string>(window?.navigator?.language||'ja')
-    const [dark, setDark] = [false,(_:any)=>null]//useGrid<boolean>({md:false, lg:true})
-    const [size, setSize] = [1    ,(_:any)=>null]//useGrid<number> ({md:1    , lg:1.5 })
-    const [fontSize,] = useGrid<number>({xs:150,lgNone:10,none:100,init:0}, [ref1, ref2])
+    const [dark, setDark] = useGrid<boolean>({md:true, lg:false})
+    const [size, setSize] = useGrid<number> ({md:1   , lg:1.5 })
+    const style = {display:"flex",justifyContent:"center",alignItems:"center",margin:"auto"}
     return (
         <div style={{background:dark?"#000":"#fff",minHeight:"100%",padding:size*100}}>
             <Head {...{size,dark}}>Examples</Head>
-            <div style={{fontSize,textAlign:"center",transition:"1s"}}>
-                <div ref={ref1}>{'😎'}</div>
-                {[...Array(10)].map((_,key:number)=>
-                    <div {...{key}}>{'😘'}</div>
-                )}
-                <div ref={ref2}>{'😎'}</div>
-            </div>
+            {/*<Notes {...{size,dark}}>*/}
+            {Object.entries(Examples).map(([key,Example])=>
+                <React.Fragment key={key}>
+                    <Head size={size/2}>{key}</Head>
+                    <Card {...{dark,style}}>
+                        <Example/>
+                    </Card>
+                </React.Fragment>
+            )}
+            {/*</Notes>*/}
             <Sides {...{size}}>
                 <p onClick={()=>window.location.href="/note"}>Note</p>
                 <p onClick={()=>window.location.href="/hook"}>Hook</p>

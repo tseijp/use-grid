@@ -1,21 +1,33 @@
-import { useGrid } from './useGrid'
+import { useGrid, useLayoutGrid } from './useGrid'
 import { defaultConfig, convertFuncToList as cF2L} from '../utils'
-import { Config } from '../types'
+import { Config, Grid, FunctionProps, FunctionAction } from '../types'
 
-type FunctionProps<T>  = (i:number) => {[key:string]:T}    // (()=>T) |   //TODO
-// type FunctionState<T>  = (i:number) => ((pre:T)=>T) | T                //TODO
-type FunctionAction<T> = (fn:FunctionProps<T>) => void
 
-export const useGrids = <T extends any> (
+export const createGrids = (grid:unknown) => <T extends any> (
     length:number,
-    initialFunc:FunctionProps<T>,//(i:number)=>BasicProps<T>,
-    refs:React.RefObject<Element>[] | Element[] | [] = [],
-    initialConfig:Config=defaultConfig,
+    props:FunctionProps<T>,
+    refs:React.RefObject<Element>[]|Element[]|[]=[],
+    cofig:Config=defaultConfig,
 ) : [T[], FunctionAction<T>] => {
-    const [grids, set] = useGrid<T[]>( cF2L<T>(length, initialFunc), refs, initialConfig)
-    const setGrid = (f:FunctionProps<T>) => set( cF2L(length, f) )
+    if (typeof props==='function')
+        props = [...Array(length)].map( (_,i:number) => (props as any)(i) )
+    const [grids,set] = (grid as Grid<T[]>)( cF2L(props) , refs, cofig)
+    const setGrid = (state:FunctionProps<T>) => {
+        if (typeof state==='function')
+            state = [...Array(length)].map( (_,i:number) => (state as any)(i) )
+        set( cF2L(state) )
+    }
     return [grids, setGrid]
 }
+
+export const useGrids        = createGrids(useGrid);
+export const useLayoutGrids  = createGrids(useLayoutGrid);
+
+/***   (i) => {md:i,lg:i} or (i) => [[md,i],[lg,i]]
+  * => [{md:0,lg:0},{md:1,lg:1}] or [[[md,0],[lg,0]],[[md,1],[lg,1]]]
+  * => [[ [md,0], [lg,0] ],[ [md,1], [lg,1] ]]
+  * => [[md,[0,1]],[lg,[0,1]]]
+ ***/
 
 /*
 Object.assign(...Object.keys(state[0]).map( k => {k:states.map(s=>s[k])} ))

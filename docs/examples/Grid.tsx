@@ -1,31 +1,17 @@
-import React, {FC} from 'react'
+import React from 'react'
 import { useGrids } from '../../src'
-
-export const Grid:FC<any> = () => {
-    const faces = ['🙄','🤣','🧐','🤯','🤮']
-    const [sizes] = useGrids<number>(faces.length, (i)=>({md:1/5, lg:(i+1)/15}))
+export const Grid = () => {
+    const face = ['🙄','🤣','🧐','🤯','🤮'];
+    const ref  = React.useRef(null)
+    const [ws] = useGrids(face.length, (i)=>(i%2===0)
+        ? { md: 1/5, xl:i/face.length/3 }
+        : { md:1/10, xl:i/face.length/6 }
+    , [ref]);
     return (
-        <div>
-            {faces.map( (face, i) =>
-                <div key={i} style={{fontSize:sizes[i], display:"inline"}}>{face}</div>
+        <div ref={ref} style={{display:"grid", width:"95%"}}>
+            {face.map( (emoji, i) =>
+                <div key={i} style={{width:ws[i]}}>{emoji}</div>
             )}
         </div>
-    )
+    );
 };
-
-export const GridCode = `
-import React, {FC} from 'react'
-import { useGrids } from '../../src'
-
-export const Grid:FC<any> = () => {
-    const faces = ['🙄','🤣','🧐','🤯','🤮']
-    const [sizes] = useGrids<number>(faces.length, (i)=>({md:1/5, lg:(i+1)/15}), {width:500})
-    return (
-        <div>
-            {faces.map( (face, i) =>
-                <div key={i} style={{fontSize:sizes[i], display:"inline"}}>{face}</div>
-            )}
-        </div>
-    )
-};
-`

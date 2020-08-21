@@ -1,11 +1,11 @@
 import {useLayoutEffect, useEffect, useState, useRef} from 'react'
 import {Effect, ViewConfig,ViewChangeHandler} from '../types'
-import {shallowEqual} from '../utils'
+import {shallowEqual,defaultConfig} from '../utils'
 
 const createView = (effect:Effect) => (
     target: React.RefObject<Element> | Element | null,
     callback?: ViewChangeHandler,
-    { defaultView=false, once=false, timeout=0, ...initialConfig }: ViewConfig = {},
+    { defaultView,once,timeout,...initialConfig }:ViewConfig=defaultConfig.viewConfig,
 ) => {
     const [view,set] = useState<boolean>(defaultView===true)
     const configRef = useRef(initialConfig)

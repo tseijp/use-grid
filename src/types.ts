@@ -1,3 +1,4 @@
+import React from 'react'
 // for useEffect
 import {DependencyList, EffectCallback, RefObject} from 'react';
 export type Effect = (effect: EffectCallback, deps?: DependencyList) => void;
@@ -22,9 +23,9 @@ export interface ViewConfig {
     root?: React.RefObject<Element>,
     rootMargin?: string,
     threshold?: number|number[],
-    timeout?: number,
     once?: boolean,
     onView?:null|((isView?:boolean)=>void),
+    timeout?: number,
     defaultView?: boolean,
 }
 // ************************* 👌 useGrid 👌 ************************* //
@@ -33,9 +34,9 @@ export type mediaType =
   | "all"
   | "screen"
 export interface Config extends MediaConfig, ViewConfig {
-    mediaConfig?:MediaConfig,
-    viewConfig?:ViewConfig,
-    extendKey?:string[]
+    mediaConfig:MediaConfig,
+    viewConfig:ViewConfig,
+    prefix:string[]
 }
 export type MediaList<T=any> = [string|MediaObject, T];
 export type ExtendProps =
@@ -46,3 +47,16 @@ export type ExtendProps =
 export type GridProps<T=any> =
   | {[key:string]:T}
   | MediaList<T>[]
+
+export type Grid<T> = (
+    props:BasicProps<GridProps<T|ExtendProps>>,
+    refs:React.RefObject<Element>[] | Element[],
+    config:Config,
+) => [T, BasicAction<GridProps<T|ExtendProps>>]
+
+// ************************* 👌 useGrids 👌 ************************* //
+export type FunctionProps<T=any>  =
+  | ((i:number) => {[key:string]:T})
+  | {[key:string]:T}[]
+
+export type FunctionAction<T> = (fn:FunctionProps<T>) => void

@@ -7,7 +7,7 @@
 <a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
 <br>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.8.0-green.svg"/></a>
+<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.8.1-green.svg"/></a>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
 a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>
@@ -70,10 +70,10 @@ import React from 'react'
 import { useGrids } from 'use-grid'
 export const App = () => {
     const face = ['🙄','🤣','🧐','🤯','🤮'];
-    const ref  = React.useRef()
-    const [ws] = useGrids(faces.length, (i)=>(i%2===0)
-        ? { md: 1/5, xl:i/faces.length/3 }
-        : { md:1/10, xl:i/faces.length/6 }
+    const ref  = React.useRef(null)
+    const [ws] = useGrids(face.length, (i)=>(i%2===0)
+        ? { md: 1/5, xl:i/face.length/3 }
+        : { md:1/10, xl:i/face.length/6 }
     , [ref]);
     return (
         <div ref={ref} style={{display:"grid", width:"95%"}}>
@@ -91,12 +91,12 @@ __use view system__
 import React from 'react';
 import {useGrid, useView} from 'use-grid';
 export const App = () => {
-    const ref1 = React.useRef()
-    const ref2 = React.useRef()
+    const ref1 = React.useRef(null)
+    const ref2 = React.useRef(null)
     const isView = useView(ref1)
     const [fontSize,set] = useGrid({md:100,lg:200}, [ref1])
     const [background]   = useGrid({
-        xs:"#fff", none:"#000", init:"#000",
+        none:"#000", init:"#fff",
         onView:(bool) =>
             set(bool
                 ? {md:150, lg:250}
@@ -145,11 +145,14 @@ Extra large|xl |>=_1200_ px|_1140_ px|
 
 __Grid Options__
 
-prefix|works|  
-:-----|:----|  
-init  |initial value to be specified|  
-none  |value when the element is not visible|  
-{xx}None|value if when specified size in {xx} and not visible|  
+name        |works|  
+:-----------|:----|  
+init        |initial value to be specified|  
+none        |value when the element is not visible|  
+onView      |function called when the target intersects|
+config      |config for useGrid
+viewConfig  |config for useMedia
+mediaConfig |config for useView
 
 __same works__
 
