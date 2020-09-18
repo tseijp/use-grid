@@ -13,7 +13,7 @@ index.cjs.js
 # testing
 /coverage
 # production
-/build
+# /build # my changed
 
 # misc
 .DS_Store

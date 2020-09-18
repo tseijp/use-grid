@@ -1,6 +1,5 @@
-//import {useLayoutEffect, useEffect, useState, useRef} from 'react';
 import {MediaList, MediaObject, MediaString, Config} from './types'
-
+//  ************************* 📺 useMedia 📺 *************************  //
 export const defaultMedia : MediaString = {
     media: '',
     matches: false,
@@ -13,16 +12,16 @@ export const defaultMedia : MediaString = {
 };
 export const defaultConfig : Config = {
     mediaConfig:{
-        size  : {xs:1,sm:576,md:768,lg:992,xl:1200},
-        width : window.innerWidth,
-        widthRef:null,
-        mediaType:null,
+        size: {xs:1,sm:576,md:768,lg:992,xl:1200},
+        width: window.innerWidth,
+        widthRef: null,
+        mediaType: null,
     },
     viewConfig:{
-        once:false,
-        onView:null,
-        timeout:0,
-        defaultView:true,
+        once: false,
+        onView: null,
+        timeout: 0,
+        defaultView: true,
     },
     prefix : ['none','init','onView','mediaConfig','viewConfig']
 }
@@ -37,15 +36,15 @@ export function convertNumToPix <T=any> (
             ? ~~( width*(Number(value)+1) ) as unknown as T
             : ~~( width*Number(value)     ) as unknown as T
     if ( value instanceof Array && value.every(v=>typeof v==="number") ) {
-        const margin = width - value.filter(v=>v>0).map(v=>v>1?v:width*Number(v)).reduce((a,b)=>a+b)
-         //console.log(width, margin);
+        const border = value.filter(v=>v>0).map(v=>v<1?width*Number(v):v)
+        const margin = width - (border.length? border.reduce((a,b)=>a+b):0)
         return value.map(v=> v===0 ? 0 : v<0
-            ? (v<-1?v:~~(-margin*Number(v) ))
-            : (v> 1?v:~~(  width*Number(v) ))) as unknown as T
+            ? (v>-1 ? ~~( margin*Number(-v) ) : v)
+            : (v< 1 ? ~~(  width*Number( v) ) : v)
+        ) as unknown as T
     }
     return value
 }
-//  ************************* 📺 useMedia 📺 *************************  //
 export function convertObjToStr<T=string|number|boolean>(
     query:string|MediaObject<T>,
     config:Config = defaultConfig,

@@ -25,6 +25,7 @@
   },
   "scripts": {
     "test": "react-app-rewired test",
+    "jest": "jest -c config-jest.js --watch --coverage --runInBand",
     "eject": "react-app-rewired eject",
     "start": "cross-env NODE_ENV=development BABEL_ENV=development react-app-rewired start",
     "build": "cross-env NODE_ENV=production BABEL_ENV=production react-app-rewired build",
@@ -52,15 +53,17 @@
     "@rollup/plugin-typescript": "^5.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^7.2.1",
-    "@tsei/core": "^0.3.3",
-    "@tsei/mdmd": "^2.0.0",
+    "@tsei/core": "^0.5.0",
+    "@tsei/mdmd": "^2.0.2",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.48",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "cross-env": "^7.0.2",
     "fs": "0.0.1-security",
+    "jest": "^26.4.2",
     "react-app-rewired": "^2.1.6",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -68,49 +71,8 @@
     "react-syntax-highlighter": "^12.2.1",
     "react-use-gesture": "^7.0.15",
     "rollup": "^2.21.0",
+    "ts-jest": "^26.3.0",
     "typescript": "^3.7.5",
     "use-grid": "^0.6.0"
-    },
-    "jest": {
-        "collectCoverageFrom": [
-          "src/**/*.{js,jsx,ts,tsx}",
-          "!src/**/*.d.ts",
-          "!src/index.{ts,tsx}",
-          "!src/serviceWorker.ts"
-        ],
-        "coveragePathIgnorePatterns": [
-          "./src/*/*.types.{ts,tsx}",
-          "./src/index.tsx",
-          "./src/serviceWorker.ts"
-        ],
-        "coverageReporters": [
-          "json",
-          "lcov",
-          "text-summary",
-          "clover"
-        ],
-        "coverageThreshold": {
-          "global": {
-            "statements": 95,
-            "branches": 95,
-            "lines": 95,
-            "functions": 95
-          }
-        },
-        "snapshotSerializers": [
-          "enzyme-to-json/serializer"
-        ],
-        "transform": {
-          "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/ts-jest"
-        },
-        "transformIgnorePatterns": [
-          "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-          "^.+\\.module\\.(css|sass|scss)$"
-        ],
-        "moduleNameMapper": {
-          "^react-native$": "react-native-web",
-          "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-          "src/(.*)$": "<rootDir>/src/$1"
-        }
-    }
+  }
 }

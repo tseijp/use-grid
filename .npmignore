@@ -4,11 +4,13 @@
 /build
 /dist
 /docs
+/coverage
 /node_modules
 /public
 /scripts
 #/src
 config-overrides.js
 config-rollup.js
+config-jest.js
 package-lock.json
 #tsconfig.json

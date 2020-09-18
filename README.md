@@ -2,12 +2,12 @@
 <h1 align="center">️🤏 use-grid</h1>
 
 <p align="center">
-<a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
-<a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/types-✔-yellow.svg"/></a>
-<a href="https://github.com/tseijp/mdmd"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
+<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
+<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/types-✔-yellow.svg"/></a>
+<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
 <br>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-<a href="https://www.npmjs.com/package/use-grid"><img alt="npm package" src="https://img.shields.io/badge/npm_package-0.8.1-green.svg"/></a>
+<a href="https://www.npmjs.com/package/use-grid"><img src="https://badge.fury.io/js/use-grid.svg" alt="npm version" height="18"></a>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
 a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
 </p>

@@ -11,6 +11,7 @@ const createGrid = (effect:Effect) => <T extends any>(
         initProps = initProps()
     const props = initProps instanceof Array ? initProps : Object.entries(initProps)
     const [config] = useState<Config>(()=>mergeConfig<T|EP>(props, initConfig)) //TODO:set
+
     // ********** ➊ grid : output value that match your media query ********** //
     const [list, setList] = useState<[string,T|EP][]>( cP2L<T|EP>(props,config) )
     const [view, setView] = useState<boolean>((config as any).defaultView)
@@ -18,6 +19,7 @@ const createGrid = (effect:Effect) => <T extends any>(
     const noneRef = useRef<T|null>(null)
     const gridRef = useRef<GP<T|EP>>(initProps)
     const viewRef = useRef<boolean[]>(Array(refs.length).fill(view))
+
     // ********** ➋ set : Functions to change media conditions later ********** //
     const set = useCallback<BasicAction<GP<T|EP>>>( (initState:BasicState<GP<T|EP>>) => {
         if (typeof initState==="function")
@@ -60,7 +62,7 @@ const createGrid = (effect:Effect) => <T extends any>(
                 const entry = entries[entries.length-1]
                 mounted && setTimeout( () => {
                     viewRef.current[i] = entry.isIntersecting
-                    onView && onView(entry.isIntersecting)
+                    onView && onView(entry.isIntersecting) // TODO input entry
                     noneRef.current && setView(viewRef.current.some(v=>v))
                 }, timeout)
                 mounted && entry.isIntersecting && once && observer.unobserve(el)
