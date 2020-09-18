@@ -1,5 +1,5 @@
 
-<h1 align="center">️🤏 use-grid</h1>
+<h2 align="center">️🤏 use-grid</h2>
 
 <p align="center">
 <a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
