@@ -1,6 +1,6 @@
 import React from 'react'
-import { useGrids } from '../../src'
-export const Grid = () => {
+import {useGrids} from '../src'
+export const Grids = () => {
     const face = ['🙄','🤣','🧐','🤯','🤮'];
     const ref  = React.useRef(null)
     const [ws] = useGrids(face.length, (i)=>(i%2===0)

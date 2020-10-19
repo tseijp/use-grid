@@ -1,5 +1,5 @@
 import React from 'react';
-import {useGrid, useView} from '../../src';
+import {useGrid, useView} from '../src';
 export const View = () => {
     const ref1 = React.useRef(null)
     const ref2 = React.useRef(null)
