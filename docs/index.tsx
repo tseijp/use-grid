@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {useGrid} from '../src';
 import {unregister} from './utils/serviceWorker';
 import {Card,Sides,Split,Trans,Trees,usePage} from '@tsei/core';
-import {Title} from './parts'
+// import {Title} from './parts'
 import {About} from './About'
 import {Grids} from './Grids'
 import {View}  from './View'
@@ -20,7 +20,6 @@ const App :FC = () => {
     const [page, setPage] = usePage<{Page:any}>({Page: ({id}:any) => (Pages as any)[id||"About"] || "None"})
     return (
         <div style={{minHeight:"100vh",background:dark?"#000":"#f1f1f1"}}>
-            <Title {...{dark, size}}/>
             <Split styleItem={{margin:size*50}}>
                 <Card min={1} style={{width:"100%",height:"100%"}}>
                     <Trees styleItem={{color:"black"}}>

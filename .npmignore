@@ -1,5 +1,8 @@
-./*
-!src
+node_modules
+*
+**
+!src/**
+!src/hooks
 !index.js
 !index.d.ts
 !index.cjs.js
