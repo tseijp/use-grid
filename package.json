@@ -63,7 +63,7 @@
         "react-use-gesture": "^7.0.15",
         "rollup": "^2.21.0",
         "styled-components": "^5.2.1",
-        "three": "^0.123.0",
+        "three": "^0.125.0",
         "ts-jest": "^26.3.0",
         "typescript": "^3.9.7"
     },
