@@ -1,8 +1,7 @@
 // ************************************************** //
 // * Ref : https://github.com/streamich/use-media
 // ************************************************** //
-
-import {useLayoutEffect, useEffect, useState, /*useRef*/} from 'react';
+import React, {useState} from 'react';
 import {Effect, MediaObject, MediaString, } from '../types'
 import {is, defaultMedia, convertObjToStr} from '../utils'
 
@@ -24,5 +23,5 @@ const createMedia = (effect:Effect) => (
     return state
 }
 
-export const useMedia = createMedia(useEffect);
-export const useLayoutMedia = createMedia(useLayoutEffect);
+export const useMedia = createMedia(React.useEffect);
+export const useLayoutMedia = createMedia(React.useLayoutEffect);

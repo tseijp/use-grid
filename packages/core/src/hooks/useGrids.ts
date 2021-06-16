@@ -1,3 +1,4 @@
+import React from 'react'
 import { useGrid, useLayoutGrid } from './useGrid'
 import { is, defaultConfig, convertFuncToList as cF2L} from '../utils'
 import { Config, Grid, FunctionProps, FunctionAction } from '../types'

@@ -1,4 +1,4 @@
-import {useLayoutEffect, useEffect, useState, useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import {Effect, ViewConfig,ViewChangeHandler} from '../types'
 import {is, defaultConfig} from '../utils'
 
@@ -46,5 +46,5 @@ const createView = (effect:Effect) => (
     return view
 }
 
-export const useView = createView(useEffect)
-export const useLayoutView = createView(useLayoutEffect)
+export const useView = createView(React.useEffect)
+export const useLayoutView = createView(React.useLayoutEffect)
