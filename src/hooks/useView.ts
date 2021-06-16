@@ -1,36 +1,50 @@
 import {useLayoutEffect, useEffect, useState, useRef} from 'react'
 import {Effect, ViewConfig,ViewChangeHandler} from '../types'
-import {shallowEqual,defaultConfig} from '../utils'
+import {is, defaultConfig} from '../utils'
 
 const createView = (effect:Effect) => (
     target: React.RefObject<Element> | Element | null,
     callback?: ViewChangeHandler,
-    { defaultView,once,timeout,...initialConfig }:ViewConfig=defaultConfig.viewConfig,
+    viewConfig: ViewConfig = defaultConfig.viewConfig,
 ) => {
-    const [view,set] = useState<boolean>(defaultView===true)
+    const {defaultView, once, timeout, ...initialConfig} = viewConfig
+    const [view, set] = useState<boolean>(defaultView === true)
     const configRef = useRef(initialConfig)
+
     effect(() => {
-        if (!shallowEqual(configRef.current, initialConfig))
+        if (!is(configRef.current, initialConfig))
             configRef.current = initialConfig
-    }, [initialConfig] )
+    }, [initialConfig])
+
     effect(() => {
         let mounted = true;
-        const element = target instanceof Element?target:target&&target.current
-        if ( !element ) return ()=>{mounted = false;}
+        const root = configRef.current?.root?.current || null
+        const el = target instanceof Element
+            ? target
+            : target?.current
+        if (!el)
+            return () => void (mounted = false)
+
         const observer = new IntersectionObserver( (entries) => {
             const entry = entries[entries.length-1]
-            callback && callback(entry);
-            mounted  && setTimeout(()=>set(entry.isIntersecting), timeout)
-            mounted  && entry.isIntersecting && once && observer.unobserve(element);
-        } , { ...configRef.current, root:configRef.current?.root?.current || null })
-        observer.observe(element)
-        return ()=>{
+            if (callback)
+                callback(entry);
+            if (!mounted) return
+            setTimeout(() => set(entry.isIntersecting), timeout)
+            if(entry.isIntersecting && once)
+                observer.unobserve(el);
+        } , {...configRef.current, root})
+
+        observer.observe(el)
+
+        return () => {
             mounted = false;
-            once && observer.unobserve(element)
+            if (once)
+                observer.unobserve(el)
         }
     }, [configRef.current, target])
     return view
 }
 
-export const useView       = createView(useEffect)
+export const useView = createView(useEffect)
 export const useLayoutView = createView(useLayoutEffect)
