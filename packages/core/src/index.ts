@@ -1,6 +1,9 @@
 import {useGrid} from './hooks'
-import {GridProps as GP, ExtendProps as EP,
-    BasicProps, BasicAction, Config} from './types'
+import {GridProps as GP, ExtendProps as EP, BasicProps, BasicAction, Config} from './types'
+
+export * from './hooks'
+export * from './types'
+export * from './utils'
 
 export function Grid <T extends any> (
     props: {

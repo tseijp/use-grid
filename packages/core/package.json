@@ -1,0 +1,36 @@
+{
+    "name": "use-grid",
+    "homepage": "/",
+    "version": "1.0.0",
+    "module": "index.js",
+    "types": "index.d.ts",
+    "main": "index.cjs.js",
+    "author": "tsei",
+    "license": "MIT",
+    "private": false,
+    "sideEffects": false,
+    "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
+    "repository": "https://github.com/tseijp/use-grid",
+    "bugs": "https://github.com/tseijp/use-grid/issues",
+    "keywords": [
+        "react",
+        "typescript",
+        "material-ui",
+        "material design",
+        "bootstrap",
+        "grid"
+    ],
+    "dependencies": {},
+    "peerDependencies": {
+        "react": ">=16.8",
+        "react-dom": ">=16.8"
+    },
+    "scripts": {
+        "test": "react-app-rewired test",
+        "jest": "jest -c config-jest.js --watch --coverage --runInBand",
+        "eject": "react-app-rewired eject",
+        "start": "cross-env NODE_ENV=development BABEL_ENV=development react-app-rewired start",
+        "build": "cross-env NODE_ENV=production BABEL_ENV=production react-app-rewired build",
+        "compile": "cross-env NODE_ENV=production BABEL_ENV=production rollup -c config-rollup.js"
+    }
+}

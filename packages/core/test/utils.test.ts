@@ -1,8 +1,7 @@
 import {
     defaultMedia , convertNumToPix   as cN2P, convertPrefixToList as cPre2L,
     defaultConfig, convertObjToStr   as cO2S, convertPropsToList  as cPro2L,
-      mergeConfig, convertFuncToList as cF2L, shallowEqual,
-           Config
+      mergeConfig, convertFuncToList as cF2L, is, Config
 } from '../src'
 
 // ************************* utils *************************  //
@@ -12,18 +11,18 @@ import {
 // *   *  => {...xConfig, ...prefix} = defaultProps
 // ************************* ***** *************************  //
 describe('Basic', () => {
-    describe('shallowEqual', () => {
+    describe('is', () => {
         const num = 0
         const str = ""
         const obj = {}
         test('primitive', () => {
-            expect(shallowEqual({},{})).toBe(true)
-            expect(shallowEqual({num},{num:0})).toBe(true)
-            expect(shallowEqual({str},{str:""})).toBe(true)
+            expect(is({},{})).toBe(true)
+            expect(is({num},{num:0})).toBe(true)
+            expect(is({str},{str:""})).toBe(true)
         })
         test('object', () => {
-            expect(shallowEqual({obj},{obj:obj})).toBe(true)
-            expect(shallowEqual({obj},{obj:{}})).toBe(false)
+            expect(is({obj},{obj:obj})).toBe(true)
+            expect(is({obj},{obj:{}})).toBe(false)
         })
     })
     // describe('mergeConfig', () => {})

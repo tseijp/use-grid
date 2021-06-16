@@ -1,85 +1,24 @@
 {
-    "name": "use-grid",
-    "homepage": "/",
-    "version": "0.9.1",
-    "module": "index.js",
-    "types": "index.d.ts",
-    "main": "index.cjs.js",
+    "name": "@use-grid/root",
     "author": "tsei",
     "license": "MIT",
-    "private": false,
-    "sideEffects": false,
+    "private": true,
     "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
-    "repository": "https://github.com/tseijp/use-grid",
-    "bugs": "https://github.com/tseijp/use-grid/issues",
-    "keywords": [
-        "react",
-        "typescript",
-        "material-ui",
-        "material design",
-        "bootstrap",
-        "grid"
-    ],
+    "repository": "tseijp/use-grid",
+    "homepage": "https://tseijp.github.io/use-grid",
+    "maintainers": ["tseijp (https://github.com/tseijp)"],
+    "workspaces": ["packages/*", "examples/*"],
     "scripts": {
-        "test": "react-app-rewired test",
-        "jest": "jest -c config-jest.js --watch --coverage --runInBand",
-        "eject": "react-app-rewired eject",
-        "start": "cross-env NODE_ENV=development BABEL_ENV=development react-app-rewired start",
-        "build": "cross-env NODE_ENV=production BABEL_ENV=production react-app-rewired build",
-        "compile": "cross-env NODE_ENV=production BABEL_ENV=production rollup -c config-rollup.js"
-    },
-    "dependencies": {},
-    "peerDependencies": {
-        "react": ">=16.8",
-        "react-dom": ">=16.8"
+        "init": "npm i -g yarn lerna && lerna bootstrap",
+        "docs": "lerna exec --scope @use-grid/docs -- yarn start",
+        "site": "lerna exec --scope @use-grid/site -- yarn start",
+        "update": "lerna exec --scope use-grid -- yarn publish",
+        "build": "lerna exec --scope use-grid -- rollup -c",
+        "watch": "lerna exec --scope use-grid -- jest --watch --runInBand",
+        "cov": "lerna exec --scope use-grid -- jest --coverage",
+        "ls": "lerna exec --scope use-grid -- npm pack --dry-run"
     },
     "devDependencies": {
-        "@rollup/plugin-babel": "^5.1.0",
-        "@rollup/plugin-commonjs": "^14.0.0",
-        "@rollup/plugin-node-resolve": "^8.4.0",
-        "@rollup/plugin-typescript": "^5.0.2",
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.5.0",
-        "@testing-library/react-hooks": "^3.4.1",
-        "@testing-library/user-event": "^7.2.1",
-        "@tsei/core": "^0.8.3",
-        "@types/jest": "^24.9.1",
-        "@types/node": "^12.12.48",
-        "@types/react": "^16.9.41",
-        "@types/react-dom": "^16.9.8",
-        "@types/styled-components": "^5.1.5",
-        "cross-env": "^7.0.2",
-        "fs": "0.0.1-security",
-        "jest": "^24.9.0",
-        "mdbreact": "^5.0.1",
-        "react": "^16.13.1",
-        "react-app-rewired": "^2.1.6",
-        "react-dom": "^16.13.1",
-        "react-scripts": "3.4.1",
-        "react-spring": "^9.0.0-rc.3",
-        "react-syntax-highlighter": "^12.2.1",
-        "react-three-fiber": "^5.0.6",
-        "react-three-flex": "^0.5.2",
-        "react-use-gesture": "^7.0.15",
-        "rollup": "^2.21.0",
-        "styled-components": "^5.2.1",
-        "three": "^0.123.0",
-        "ts-jest": "^26.3.0",
-        "typescript": "^3.9.7"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "lerna": "^4.0.0"
     }
 }

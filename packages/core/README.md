@@ -38,8 +38,8 @@ npm i use-grid
 ```bash
 git clone github.com/tseijp/use-grid
 cd use-grid
-npm run init
-npm run docs
+npm i -D
+npm start
 ```
 * open browser and visit [localhost:3000](http://localhost:3000/)
 * ~Now you can go to our [demo](https://tsei.jp/hook/use-grid), and try its usage.~
@@ -47,39 +47,42 @@ npm run docs
 ### Simple example
 
 __switch by media query__
-
 ```js
-const isMedium = useMedia({ minWidth:720, maxWidth:960 });
-const [ fontSize ] = useGrid({ xs:"2em", md:"50px", xl:"75px" });
-const [ width,set ] = useGrid({ xs: 8/9  , md: 500   , lg: 750  });
-const handler = () => set((p)=>({md: p.lg, lg: p.md}))
-
-render (
-  <div
-    style={{fontSize, width}}
-    onClick={heandler}>
-    {isMedium?'😃':'😢'}
-  </div>
-);
+import React from 'react'
+import { useMedia, useGrid } from 'use-grid'
+export const App = () => {
+    const isMedium      = useMedia({ minWidth:720, maxWidth:960 });
+    const [ fontSize ]  = useGrid({ xs:"2em", md:"50px", xl:"75px" });
+    const [ width,set ] = useGrid({ xs:8/9  , md:500   , lg:750    });
+    return (
+        <div style={{fontSize, width}}
+            onClick={() => set((p)=>({md:p.lg,lg:p.md}))}>
+            {isMedium?'😃':'😢'}
+        </div>
+    );
+};
 ```
 
 __use grid system__
 
 ```js
-const face = ['🙄','🤣','🧐','🤯','🤮'];
-const ref  = React.useRef(null)
-const [ws] = useGrids(face.length, (i)=>(i%2===0)
-  ? { md: 1/5, xl:i/face.length/3 }
-  : { md:1/10, xl:i/face.length/6 }
-, [ref]);
-
-render (
-  <div ref={ref} style={{display:"grid", width:"95%"}}>
-    {face.map( (emoji, i) =>
-      <div style={{width:ws[i]}}>{emoji}</div>
-    )}
-  </div>
-);
+import React from 'react'
+import { useGrids } from 'use-grid'
+export const App = () => {
+    const face = ['🙄','🤣','🧐','🤯','🤮'];
+    const ref  = React.useRef(null)
+    const [ws] = useGrids(face.length, (i)=>(i%2===0)
+        ? { md: 1/5, xl:i/face.length/3 }
+        : { md:1/10, xl:i/face.length/6 }
+    , [ref]);
+    return (
+        <div ref={ref} style={{display:"grid", width:"95%"}}>
+            {face.map( (emoji, i) =>
+                <div style={{width:ws[i]}}>{emoji}</div>
+            )}
+        </div>
+    );
+};
 ```
 
 __use view system__
@@ -87,42 +90,42 @@ __use view system__
 ```js
 import React from 'react';
 import {useGrid, useView} from 'use-grid';
-
-const ref1 = React.useRef(null)
-const ref2 = React.useRef(null)
-
-const isView = useView(ref1)
-const [fontSize, set] = useGrid({md:100,lg:200}, [ref1])
-const [background] = useGrid({
-  none:"#000", init:"#fff",
-  onView: bool =>
-    set(bool? {md:150, lg:250}
-            : {md:100, lg:200})
-}, [ref1, ref2])
-
-render (
-  <div style={{fontSize,background}}>
-    <div ref={ref1}>{'😎'}</div>
-    {[...Array(10).keys()].map(i =>
-      <div key={i}>{isView?'😘':'🤣'}</div>
-    )}
-    <div ref={ref2}>{'😎'}</div>
-  </div>
-)
+export const App = () => {
+    const ref1 = React.useRef(null)
+    const ref2 = React.useRef(null)
+    const isView = useView(ref1)
+    const [fontSize,set] = useGrid({md:100,lg:200}, [ref1])
+    const [background]   = useGrid({
+        none:"#000", init:"#fff",
+        onView:(bool) =>
+            set(bool
+                ? {md:150, lg:250}
+                : {md:100, lg:200})
+    }, [ref1, ref2])
+    return (
+        <div style={{fontSize,background}}>
+            <div ref={ref1}>{'😎'}</div>
+            {[...Array(10)].map((_,i)=>
+                <div key={i}>{isView?'😘':'🤣'}</div>
+            )}
+            <div ref={ref2}>{'😎'}</div>
+        </div>
+    )
+}
 ```
 
 ### Available hooks
 
 | Hook              | Description                                             |  
 | ----------------- | ------------------------------------------------------- |  
-| `useGrid`         | make it switch value by media query using useEffect      |  
+| `useGrid`         | make it switch value by media query with useEffect      |  
 | `useGrids`        | multiple values can be switched by media queries |  
-| `useMedia`        | get a match to media query using useEffect |  
+| `useMedia`        | get a match to media query with useEffect |  
 | `useView`         | get a flag whether the target intersects |  
-| `useLayoutGrid`   | work like useGrid  using useLayoutEffect |  
-| `useLayoutGrids`  | work like useGrids using useLayoutEffect |  
-| `useLayoutMedia`  | work like useMedia using useLayoutEffect |  
-| `useLayoutView`   | work like useView  using useLayoutEffect |  
+| `useLayoutGrid`   | work like useGrid  with useLayoutEffect |  
+| `useLayoutGrids`  | work like useGrids with useLayoutEffect |  
+| `useLayoutMedia`  | work like useMedia with useLayoutEffect |  
+| `useLayoutView`   | work like useView  with useLayoutEffect |  
 
 ### Performance Pitfalls
 
@@ -154,23 +157,22 @@ mediaConfig |config for useView
 __same works__
 
 ```javascript
-const width1 = useGrid({sm:1, md:1/2, lg:"750px"})
-const width2 = useGrid({sm:"100%",md:"50%",lg:"750px"})
-const width3 = useGrid([["sm","100%"], ["md":"50%"], ["lg":"750px"]])
-const width4 = useGrid([[{                 maxWidth:"576px"}, "100%"],
-                        [{minWidth:"576px",maxWidth:"768px"},  "50%"],
-                        [{minWidth:"768px"                 },"750px"]])
-const width5 = useGrid([[                    "max-width:576px", "100%"],
-                        ["min-width:576px and max-width:768px",  "50%"],
-                        ["min-width:768px"                    ,"750px"]])
-const width =
-   || width1
-   || width2
-   || width3
-   || width4
-   || width5
-
-render (
-  <div style={{width}} />
-)
+export function Note ({children}) {
+    const width1 = useGrid({sm:1, md:1/2, lg:"750px"})
+    const width2 = useGrid({sm:"100%",md:"50%",lg:"750px"})
+    const width3 = useGrid([["sm","100%"], ["md":"50%"], ["lg":"750px"]])
+    const width4 = useGrid([[{                 maxWidth:"576px"}, "100%"],
+                            [{minWidth:"576px",maxWidth:"768px"},  "50%"],
+                            [{minWidth:"768px"                 },"750px"]])
+    const width5 = useGrid([[                    "max-width:576px", "100%"],
+                            ["min-width:576px and max-width:768px",  "50%"],
+                            ["min-width:768px"                    ,"750px"]])
+    const width =
+       || width1
+       || width2
+       || width3
+       || width4
+       || width5
+    return <div style={{width}} />
+}
 ```
