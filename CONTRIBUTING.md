@@ -1,3 +1,3 @@
-# Contributing to `parsed-path`
+# Contributing to `use-grid`
 
 ### [TODO]

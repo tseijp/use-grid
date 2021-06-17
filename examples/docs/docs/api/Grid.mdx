@@ -1,0 +1,19 @@
+---
+sidebar_position: 3
+sidebar_label: Grid
+---
+
+# Grid
+
+import {Grid} from 'use-grid'
+import {Live} from '../../components'
+
+<Live.Card scope={{React, Grid}} code={`
+render (
+  <Grid>
+    {(fontSize, ref) =>
+      <div ref={ref} style={{fontSize}}>🤏</div>
+    }
+  </Grid>
+)
+`.trim()}/>

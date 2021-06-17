@@ -57,7 +57,7 @@ const handler = () => set((p)=>({md: p.lg, lg: p.md}))
 render (
   <div
     style={{fontSize, width}}
-    onClick={heandler}>
+    onClick={handler}>
     {isMedium?'😃':'😢'}
   </div>
 );
@@ -69,8 +69,8 @@ __use grid system__
 const face = ['🙄','🤣','🧐','🤯','🤮'];
 const ref  = React.useRef(null)
 const [ws] = useGrids(face.length, (i)=>(i%2===0)
-  ? { md: 1/5, xl:i/face.length/3 }
-  : { md:1/10, xl:i/face.length/6 }
+  ? { md:  1/5, xl: i/face.length/3 }
+  : { md: 1/10, xl: i/face.length/6 }
 , [ref]);
 
 render (

@@ -1,0 +1,19 @@
+---
+sidebar_position: 2
+sidebar_label: Media
+---
+
+# Media
+
+import {Media} from 'use-grid'
+import {Live} from '../../components'
+
+<Live.Card scope={{React, Media}} code={`
+render (
+  <Media>
+    {(media, ref) =>
+      <div ref={ref}>{media}</div>
+    }
+  </Media>
+)
+`.trim()}/>

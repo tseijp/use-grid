@@ -2,11 +2,14 @@ import React, {useCallback, useState, useRef} from 'react';
 import {Effect, Config, GridProps as GP, ExtendProps as EP, BasicProps, BasicState, BasicAction} from '../types'
 import {is, defaultConfig, defaultMedia, convertPropsToList as cP2L, mergeConfig} from '../utils'
 
+type OneOrMore<T = any> = T | T[]
+const concat = Array.prototype.concat
+
 const createGrid = (effect: Effect) => <T extends any>(
-    initProps : BasicProps<GP<T|EP>>,
-    refs : React.RefObject<Element>[] | Element[]  = [],
+    initProps: BasicProps<GP<T|EP>>,
+    targetRef: OneOrMore<React.RefObject<Element> | Element>  = [],
     initConfig:Config=defaultConfig,
-) : [T, BasicAction<GP<T|EP>>] => {
+): [T, BasicAction<GP<T|EP>>] => {
     if (is.fun(initProps))
         initProps = initProps()
     const props = initProps instanceof Array ? initProps : Object.entries(initProps)
@@ -18,7 +21,7 @@ const createGrid = (effect: Effect) => <T extends any>(
     const [grid, setGrid] = useState((list.filter(l=>l[0]==="init")[0]||list[0])[1] as T)
     const noneRef = useRef(null as T | null)
     const gridRef = useRef(initProps as GP<T|EP>)
-    const viewRef = useRef(Array(refs.length).fill(view))
+    const viewRef = useRef(Array(concat(targetRef).length).fill(view))
 
     // ********** ➋ set : Functions to change media conditions later ********** //
     const set = useCallback((initState: BasicState<GP<T|EP>>) => {
@@ -65,7 +68,7 @@ const createGrid = (effect: Effect) => <T extends any>(
     effect(()=> {
         let mounted = true;
         const {timeout=0, once=false, onView=null} = config;
-        const observers = [...refs].map((ref,i) => {
+        const observers = concat(targetRef).map((ref,i) => {
             const el = ref instanceof Element
                 ? ref
                 : ref.current

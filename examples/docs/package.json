@@ -1,7 +1,8 @@
 {
-  "name": "examples",
+  "name": "@use-grid/docs",
   "version": "0.0.0",
   "private": true,
+  "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
@@ -20,9 +21,14 @@
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
     "file-loader": "^6.2.0",
+    "polish": "^0.2.3",
+    "polished": "^4.1.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "url-loader": "^4.1.1"
+    "react-live": "^2.2.3",
+    "styled-components": "^5.3.0",
+    "url-loader": "^4.1.1",
+    "use-grid": "^1.0.0"
   },
   "browserslist": {
     "production": [
@@ -35,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tsei/core": "1.1.1",
+    "@types/styled-components": "^5.1.10"
   }
 }
