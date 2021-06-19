@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react'
-import {Effect, ViewConfig,ViewChangeHandler} from '../types'
+import {Effect, ViewConfig, ViewChangeHandler} from '../types'
 import {is, defaultConfig} from '../utils'
 
 const createView = (effect:Effect) => (

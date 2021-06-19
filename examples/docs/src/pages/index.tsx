@@ -10,7 +10,9 @@ function App () {
   const [fontSize, set] = useGrid({xs: '1rem', md: '50px', lg: '100px'})
   return <div style={{fontSize}}>🤏 use-grid</div>
 }
-render(<App/>)
+render(
+  <App/>
+)
 `.trim();
 
 export default function App () {
@@ -25,7 +27,7 @@ export default function App () {
               <Live.Preview/>
             </Home.Header>
             <Home.Title>
-              <Home.Tagline>use-grid is </Home.Tagline>
+              <Home.Tagline>use-grid is</Home.Tagline>
               <Home.SupportingTagline>
                 a hook to build responsive layouts of all shapes and sizes.
               </Home.SupportingTagline>

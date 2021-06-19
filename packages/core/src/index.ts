@@ -23,14 +23,14 @@ function _Grid (props: any, ref: any) {
     const {children, config, ...other} = props
     const target = React.useRef(null)
     React.useImperativeHandle(ref, () => target.current)
-    return children(useGrid(other, target, config)[0], target)
+    return children(useGrid(other, [target], config)[0], target)
 }
 
 function _LayoutGrid (props: any, ref: any) {
     const {children, config, ...other} = props
     const target = React.useRef(null)
     React.useImperativeHandle(ref, () => target.current)
-    return children(useLayoutGrid(other, target, config)[0], target)
+    return children(useLayoutGrid(other, [target], config)[0], target)
 }
 
 function _Media (props: any, ref: any) {

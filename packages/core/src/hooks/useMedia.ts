@@ -10,6 +10,7 @@ const createMedia = (effect:Effect) => (
 ) : boolean => {
     const query = convertObjToStr(rawQuery);
     const [state, set] = useState(defaultState);
+
     effect(()=>{
         let mounted = true;
         const media:MediaString = is.und(window)

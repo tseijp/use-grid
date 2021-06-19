@@ -9,10 +9,9 @@
     "maintainers": ["tseijp (https://github.com/tseijp)"],
     "workspaces": ["packages/*", "examples/*"],
     "scripts": {
-        "init": "npm i -g yarn lerna && lerna bootstrap",
-        "docs": "lerna exec --scope @use-grid/docs -- yarn start",
-        "site": "lerna exec --scope @use-grid/site -- yarn start",
+        "start": "lerna exec --scope @use-grid/docs -- yarn start",
         "build": "lerna exec --scope @use-grid/docs -- yarn build",
+        "deploy": "lerna exec --scope @use-grid/docs -- yarn deploy",
         "update": "lerna exec --scope use-grid -- yarn publish",
         "rollup": "lerna exec --scope use-grid -- rollup -c",
         "watch": "lerna exec --scope use-grid -- jest --watch --runInBand",

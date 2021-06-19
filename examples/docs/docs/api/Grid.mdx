@@ -5,12 +5,12 @@ sidebar_label: Grid
 
 # Grid
 
-import {Grid} from 'use-grid'
+import {Grid} from 'use-grid/src'
 import {Live} from '../../components'
 
 <Live.Card scope={{React, Grid}} code={`
 render (
-  <Grid>
+  <Grid xs="1rem" md="2rem" xl="3rem">
     {(fontSize, ref) =>
       <div ref={ref} style={{fontSize}}>🤏</div>
     }

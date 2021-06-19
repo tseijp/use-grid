@@ -3,27 +3,7 @@ sidebar_position: 6
 sidebar_label: useView
 ---
 
-import {Live} from '../../components'
-import {useGrid, useView} from 'use-grid';
+# useView
 
-<Live.Card scope={{React, useGrid, useView}} code={`
-const ref1 = React.useRef(null)
-const ref2 = React.useRef(null)
-const isView = useView(ref1)
-const [fontSize,set] = useGrid({none:150, md:100,lg:200}, [ref1])
-const [background]   = useGrid({
-    none:"#fff", init:"#000",
-    onView:(bool) =>
-        set(bool
-            ? {md:150, lg:250}
-            : {md:100, lg:200})
-}, [ref1, ref2])
-render (
-  <div style={{fontSize,background,transition:"1s"}}>
-    <div ref={ref1}>{'😎'}</div>
-    {[...Array(5)].map((_,i)=>
-        <div key={i}>{isView?'😘':'🤣'}</div>
-    )}
-    <div ref={ref2}>{'😎'}</div>
-  </div>
-)`.trim()}/>
+import {useView} from 'use-grid/src';
+import {Live} from '../../components'

@@ -5,15 +5,15 @@ sidebar_label: View
 
 # View
 
-import {View} from 'use-grid'
+import {View} from 'use-grid/src'
 import {Live} from '../../components'
 
 <Live.Card scope={{React, View}} code={`
-render (
-  <View>
-    {(view, ref) =>
-      <div ref={ref}>{view}</div>
-    }
-  </View>
+    render (
+      <View>
+        {(view, ref) =>
+          <div ref={ref}>{view}</div>
+        }
+      </View>
 )
 `.trim()}/>

@@ -15,7 +15,7 @@ export const defaultMedia : MediaString = {
 export const defaultConfig: Config = {
     mediaConfig:{
         size: {xs:1,sm:576,md:768,lg:992,xl:1200},
-        width: is.und(window)? 0: window.innerWidth,
+        width: 0,
         widthRef: null,
         mediaType: null,
     },
@@ -29,17 +29,14 @@ export const defaultConfig: Config = {
 }
 
 export function convertNumToPix <T=any> (
-    value:T, config:Config=defaultConfig
+    value: T,
+    config: Config=defaultConfig
 ) : T {
     const widthRef = config.widthRef
-    const element = widthRef instanceof Element
-        ? widthRef
-        : widthRef?.current
-    const width = element
+    const element = (widthRef as any)?.current || widthRef
+    let width = element
         ? element.clientWidth
-        : is.und(window)
-        ? 0
-        : window.innerWidth
+        : config.width || 0 // todo window.innerWidth
 
     if (is.num(value) && value**2 < 1 )
         return value < 0

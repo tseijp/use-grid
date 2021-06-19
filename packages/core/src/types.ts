@@ -16,21 +16,21 @@ export type MediaObject<T=string|number|boolean> = {[key:string]:T};
 
 export interface MediaConfig {
     [key:string]:any,
-    size?:{[key:string]:number},
-    width?:number,
-    widthRef?:null|Element|RefObject<Element>,
-    mediaType?:mediaType,
+    size?: {[key:string]:number},
+    width?: number,
+    widthRef?: null|Element|RefObject<Element>,
+    mediaType?: mediaType,
 }
 // ************************* 👀 useView 👀 ************************* //
 export type ViewChangeHandler = (entry: IntersectionObserverEntry) => void
 
 export interface ViewConfig {
-    [key:string]:any,
+    [key:string]: any,
     root?: React.RefObject<Element>,
     rootMargin?: string,
     threshold?: number|number[],
     once?: boolean,
-    onView?:null|((isView?:boolean)=>void),
+    onView?: null|((isView?:boolean)=>void),
     timeout?: number,
     defaultView?: boolean,
 }
