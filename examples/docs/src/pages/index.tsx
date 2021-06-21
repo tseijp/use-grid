@@ -15,6 +15,12 @@ render(
 )
 `.trim();
 
+const LINK = [
+    'https://github.com/streamich/use-media',
+    'https://github.com/cats-oss/use-intersection',
+    'https://getbootstrap.com/docs/4.2/layout/grid/'
+]
+
 export default function App () {
     const {siteConfig} = useDocusaurusContext()
     return (
@@ -31,6 +37,15 @@ export default function App () {
               <Home.SupportingTagline>
                 a hook to build responsive layouts of all shapes and sizes.
               </Home.SupportingTagline>
+              <Home.Tagline>
+                a fork of 👌 <a href={LINK[0]}>use-media</a> that track the state of CSS media queries,
+              </Home.Tagline>
+              <Home.Tagline>
+                a fork of 👏 <a>use-intersection</a> that track whether the target intersects,
+              </Home.Tagline>
+              <Home.Tagline>
+                and remake of 🅱 bootstrap grid system thanks to responsive column system.
+              </Home.Tagline>
             </Home.Title>
             <Live.Container style={{maxWidth: "34rem"}}>
               <Live.Editor style={{minHeight: "auto"}}/>
