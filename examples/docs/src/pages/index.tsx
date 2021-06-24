@@ -1,14 +1,21 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
+import {useGrid} from 'use-grid'
 import {Home} from '../../components/Home'
 import {Live} from '../../components/Live'
-import {useGrid} from 'use-grid'
 
 const Code = `
 function App () {
-  const [fontSize, set] = useGrid({xs: '1rem', md: '50px', lg: '100px'})
-  return <div style={{fontSize}}>🤏 use-grid</div>
+  const [fontSize, set] = useGrid({xs: '2rem', md: 50, lg: 100})
+  const handleClick = () => set(p => ({...p, md: p.lg, lg: p.md}))
+  return (
+    <div
+      style={{fontSize}}
+      onClick={handleClick}>
+      🤏 use-grid
+    </div>
+  )
 }
 render(
   <App/>
@@ -25,32 +32,32 @@ export default function App () {
     const {siteConfig} = useDocusaurusContext()
     return (
       <Layout
-        title={`Hello from ${siteConfig.title}`}
+        title={`${siteConfig.title}`}
         description="Description will go into a meta tag in <head />">
         <Home>
           <Live hero code={Code} noInline scope={{ React, useGrid }}>
             <Home.Header>
               <Live.Preview/>
+              <Home.Title>
+                <Home.Tagline>use-grid is</Home.Tagline>
+                <Home.Content>
+                  a hook to build responsive layouts of all shapes and sizes.
+                </Home.Content>
+                <Home.Content>
+                  a fork of <a href={LINK[0]}>👌 use-media</a> that track the state of CSS media queries,
+                </Home.Content>
+                <Home.Content>
+                  a fork of <a href={LINK[1]}>👏 use-intersection</a> that track whether the target intersects,
+                </Home.Content>
+                <Home.Content>
+                  and remake of <a href={LINK[2]}>🅱 bootstrap</a> grid system thanks to responsive column system.
+                </Home.Content>
+              </Home.Title>
+              <Live.Container style={{maxWidth: "34rem"}}>
+                <Live.Editor style={{minHeight: "auto"}}/>
+                <Live.Error />
+              </Live.Container>
             </Home.Header>
-            <Home.Title>
-              <Home.Tagline>use-grid is</Home.Tagline>
-              <Home.SupportingTagline>
-                a hook to build responsive layouts of all shapes and sizes.
-              </Home.SupportingTagline>
-              <Home.Tagline>
-                a fork of 👌 <a href={LINK[0]}>use-media</a> that track the state of CSS media queries,
-              </Home.Tagline>
-              <Home.Tagline>
-                a fork of 👏 <a>use-intersection</a> that track whether the target intersects,
-              </Home.Tagline>
-              <Home.Tagline>
-                and remake of 🅱 bootstrap grid system thanks to responsive column system.
-              </Home.Tagline>
-            </Home.Title>
-            <Live.Container style={{maxWidth: "34rem"}}>
-              <Live.Editor style={{minHeight: "auto"}}/>
-              <Live.Error />
-            </Live.Container>
           </Live>
         </Home>
       </Layout>

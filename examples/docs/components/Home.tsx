@@ -15,8 +15,7 @@ const Home: any = styled.div`
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   box-sizing: border-box;
   min-height: 100vh;
-  padding-top: 160px;
-  padding-bottom: 160px;
+  padding: 100px 0px;
 `
 
 
@@ -27,20 +26,21 @@ Home.Header = styled.header`
 `
 
 Home.Tagline = styled.h1`
+  margin: 0;
+  padding: 2.6rem;
   font-weight: 600;
   font-size: 1.3rem;
 `;
 
-Home.SupportingTagline = styled.h2`
+Home.Content = styled.h2`
+  margin: 0;
+  padding: 0.2rem;
   font-size: 1.1rem;
   font-weight: 400;
 `;
 
 Home.Title = styled.div`
-  margin: 2rem 0;
-  h1, h2 {
-    margin: 0;
-  }
+  margin: 0;
 `;
 
 export {Home}
