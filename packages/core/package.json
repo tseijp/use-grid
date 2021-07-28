@@ -1,6 +1,6 @@
 {
     "name": "use-grid",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "module": "index.js",
     "types": "index.d.ts",
     "main": "index.cjs.js",
