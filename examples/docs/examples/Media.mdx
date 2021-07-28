@@ -6,13 +6,17 @@ sidebar_label: Media
 # Media
 
 import {Media} from 'use-grid/src'
-import {Live} from '../../components'
+import {Live} from '../components'
 
 <Live.Card scope={{React, Media}} code={`
 render (
-  <Media>
-    {(media, ref) =>
-      <div ref={ref}>{media}</div>
+  <Media
+    minWidth="576px"
+    maxWidth="768px"
+    init={false}
+  >
+    {(medium, ref) =>
+      <div ref={ref}>{medium? "👧": "🧔"}</div>
     }
   </Media>
 )

@@ -16,12 +16,8 @@ module.exports = {
     navbar: {
       title: '🤏use-grid',
       items: [
-        {
-          type: 'doc',
-          docId: 'intro',
-          position: 'left',
-          label: 'Documentation',
-        },
+        { type: 'doc', docId: 'intro', position: 'left', label: 'Documentation' },
+        { to: '/examples/intro', label: 'Examples', position: 'left' },
         {
           href: 'https://github.com/tseijp/use-grid',
           label: 'GitHub',
@@ -35,10 +31,8 @@ module.exports = {
         {
           title: 'Docs',
           items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
+            { label: 'Documents', to: '/documents/intro'},
+            { label: 'Examples', to: '/examples/intro'},
           ],
         },
         {
@@ -63,10 +57,22 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          path: 'documents',
+          routeBasePath: 'documents',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/tseijp/use-grid/edit/master/examples/docs/',
+            'https://github.com/tseijp/use-grid/edit/master/examples/documents/',
         },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'examples',
+        path: 'examples',
+        routeBasePath: 'examples',
       },
     ],
   ],

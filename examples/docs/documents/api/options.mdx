@@ -1,0 +1,54 @@
+---
+sidebar_position: 2
+sidebar_label: Grid options
+---
+import {Live } from '../../components/Live'
+
+`🤏 use-grid`‌ offers options to configure the grid.
+
+## Grid options
+
+Option | Default Value | Description
+:-|:-
+init | `` | initial value to be specified
+none | `` | value when the element is not visible
+onView | `` | function called when the target intersects
+config | `` | config for useGrid
+viewConfig | .. | config for useMedia
+mediaConfig | .. | config for useView
+prefix | .. | name for config
+
+
+## View options
+
+Option | Default Value | Description
+:-|:-|:-
+once | `false` | ..
+onView | `null` | ..
+timeout | `0` | ..
+defaultView | `true` | ..
+
+
+## Media options
+
+Option | Default Value | Description
+:-|:-|:-
+size | .. | ..
+width | `0` | ..
+widthRef | `null` | ..
+mediaType | `null` | ..
+media | `''` |..
+mathes | `false`|..
+onchange | `()=>{}`|..
+addListener | `()=>{}`|..
+removeListener | `()=>{}`|..
+addEventListener | `()=>{}` | ..
+removeEventListener | `()=>{}` | ..
+dispatchEvent | `()=>true` | ..
+
+## options explained
+
+```jsx
+const [fontSize, set] = useGrid(props, ref, config)
+return <div style={{fontSize}}>🤏 use-grid</div>
+```

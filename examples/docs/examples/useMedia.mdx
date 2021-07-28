@@ -1,0 +1,17 @@
+---
+sidebar_position: 5
+sidebar_label: useMedia
+---
+
+# useMedia
+
+import {useMedia} from 'use-grid/src'
+import {Live} from '../components'
+
+
+<Live.Card scope={{React, useMedia}} noInline={false} code={`
+function App () {
+  const small = useMedia("max-width: 576px")
+  const large = useMedia({minWidth: "768px"})
+  return <div>{!small && !large? "👧": "👨"}</div>
+}`.trim()}/>

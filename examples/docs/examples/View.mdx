@@ -1,0 +1,24 @@
+---
+sidebar_position: 3
+sidebar_label: View
+---
+
+# View
+
+import {View} from 'use-grid/src'
+import {Live} from '../components'
+
+<Live.Card scope={{React, View}} code={`
+let i = 0
+render (
+  <View
+    onView={() => i++}
+  >
+    {(view, ref) =>
+      <div ref={ref}>
+        {view? "🥱": "😴"}{i}
+      </div>
+    }
+  </View>
+)
+`.trim()}/>

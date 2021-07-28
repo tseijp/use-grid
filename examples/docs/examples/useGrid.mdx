@@ -6,13 +6,10 @@ sidebar_label: useGrid
 # useGrid
 
 import {useGrid} from 'use-grid/src'
-import {Live} from '../../components'
+import {Live} from '../components'
 
-<Live.Card scope={{React, useGrid}} code={`
+<Live.Card scope={{React, useGrid}} noInline={false} code={`
 function App () {
   const [fontSize, set] = useGrid({xs: '1rem', md: '50px', lg: '100px'})
   return <div style={{fontSize}}>🤏 use-grid</div>
-}
-render(
-  <App/>
-);`.trim()}/>
+}`.trim()}/>

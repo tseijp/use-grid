@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+sidebar_label: Available hooks
+---
+import {Live} from '../../components/Live'
+import {useGrid} from 'use-grid/src'
+
+`🤏 use-grid`‌ exports several hooks that can handle different gestures.
+
+Hook | Description
+:-|:-
+useGrid | make it switch value by media query using useEffect
+useGrids | multiple values can be switched by media queries
+useMedia | get a match to media query using useEffect
+useView | get a flag whether the target intersects
+useLayoutGrid | work like useGrid using useLayoutEffect
+useLayoutGrids | work like useGrids using useLayoutEffect
+useLayoutMedia | work like useMedia using useLayoutEffect
+useLayoutView | work like useView using useLayoutEffect
+
+## Usage
+
+
+export const config = null
+
+<Live.Card scope={{React, config, useGrid}} noInline={false} code={`
+function App () {
+  const [fontSize, set] = useGrid({xs: '2rem', md: 50, lg: 100})
+  const handleClick = () => set(p => ({...p, md: p.lg, lg: p.md}))
+  return (
+    <div
+      style={{fontSize}}
+      onClick={handleClick}>
+      🤏 use-grid
+    </div>
+  )
+}`.trim()}/>
+
+- `props` is an object all prefix if the grid.
+- `ref` is one or more React.RefObject or Element as target.
+- `config` is an object containing options for the grid.

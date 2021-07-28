@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
-import {useGrid} from 'use-grid'
+import {useGrid} from 'use-grid/src'
 import {Home} from '../../components/Home'
 import {Live} from '../../components/Live'
 
@@ -16,11 +16,7 @@ function App () {
       🤏 use-grid
     </div>
   )
-}
-render(
-  <App/>
-)
-`.trim();
+}`.trim();
 
 const LINK = [
     'https://github.com/streamich/use-media',
@@ -35,7 +31,7 @@ export default function App () {
         title={`${siteConfig.title}`}
         description="Description will go into a meta tag in <head />">
         <Home>
-          <Live hero code={Code} noInline scope={{ React, useGrid }}>
+          <Live hero code={Code} scope={{ React, useGrid }}>
             <Home.Header>
               <Live.Preview/>
               <Home.Title>

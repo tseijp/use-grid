@@ -6,9 +6,9 @@ sidebar_label: useGrids
 # useGrid
 
 import {useGrids} from 'use-grid/src'
-import {Live} from '../../components'
+import {Live} from '../components'
 
-<Live.Card scope={{React, useGrids}} code={`
+<Live.Card scope={{React, useGrids}} noInline={false} code={`
 function App () {
   const face = ['🙄','🤣','🧐','🤯','🤮'];
   const ref  = React.useRef(null)
@@ -19,11 +19,8 @@ function App () {
   return (
     <div ref={ref} style={{display:"grid", width:"95%"}}>
       {face.map( (emoji, i) =>
-        <div key={i} style={{width:ws[i]}}>{emoji}</div>
+        <div key={i} style={{width: ws[i]}}>{emoji}</div>
       )}
     </div>
   )
-}
-render (
-  <App/>
-);`.trim()}/>
+}`.trim()}/>
