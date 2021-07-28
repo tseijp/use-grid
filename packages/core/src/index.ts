@@ -1,16 +1,17 @@
 import React from 'react'
-import {
-    useGrid,
-    useMedia,
-    useView,
-    useLayoutGrid,
-    useLayoutMedia,
-    useLayoutView
-} from './hooks'
+import {createMedia, createView, createGrid, createGrids} from './hooks'
 
-export * from './hooks'
 export * from './types'
 export * from './utils'
+
+export const useMedia = createMedia(React.useEffect);
+export const useView = createView(React.useEffect);
+export const useGrid = createGrid(React.useEffect);
+export const useGrids = createGrids(useGrid);
+export const useLayoutMedia = createMedia(React.useLayoutEffect);
+export const useLayoutView = createView(React.useLayoutEffect);
+export const useLayoutGrid = createGrid(React.useLayoutEffect);
+export const useLayoutGrids = createGrids(useLayoutGrid);
 
 export const Grid = React.forwardRef(_Grid)
 export const Media = React.forwardRef(_Media)
@@ -48,15 +49,15 @@ function _LayoutMedia (props: any, ref: any) {
 }
 
 function _View (props: any, ref: any) {
-    const {children, callback, ...config} = props
+    const {children, onView, ...config} = props
     const target = React.useRef(null)
     React.useImperativeHandle(ref, () => target.current)
-    return children(useView(target, callback, config), target)
+    return children(useView(target, onView, config), target)
 }
 
 function _LayoutView (props: any, ref: any) {
-    const {children, callback, ...config} = props
+    const {children, onView, ...config} = props
     const target = React.useRef(null)
     React.useImperativeHandle(ref, () => target.current)
-    return children(useLayoutView(target, callback, config), target)
+    return children(useLayoutView(target, onView, config), target)
 }

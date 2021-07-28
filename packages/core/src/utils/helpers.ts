@@ -1,3 +1,24 @@
+import {MediaList, Config} from '../types'
+
+export const mergeConfig = <T=any>(
+    props: MediaList<T>[], config: Config
+): Config => {
+    const {prefix, viewConfig, mediaConfig, ...initConfig} = config
+    const configs = {viewConfig, mediaConfig, initConfig}
+    return Object.assign(
+        {},
+        Object.fromEntries(
+            props.filter(p => prefix.some(key => key === p[0]))
+        ),
+     ...Object
+        .entries(configs)
+        .map(([key, conf]) => ({
+            ...(props.find(p => p[0] === key) || [0, {}])[1],
+            ...conf
+        })),
+    )
+}
+
 const is = (a: any, b?: any, ...other: any): boolean => {
     if (other.length > 0) return is(a, b) && is(b, ...other)
     if (typeof a !== typeof b) return false

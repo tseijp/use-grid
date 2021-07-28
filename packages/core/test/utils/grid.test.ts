@@ -1,62 +1,17 @@
 import {
-    defaultMedia , convertNumToPix   as cN2P, convertPrefixToList as cPre2L,
-    defaultConfig, convertObjToStr   as cO2S, convertPropsToList  as cPro2L,
-      mergeConfig, convertFuncToList as cF2L, is, Config
-} from '../src'
+    // is,
+    Config,
+    // mergeConfig,
+    // defaultMedia,
+    defaultConfig,
+    // convertNumToPix as cN2P,
+    // convertObjToStr as cO2S,
+    convertPropsToList as cPro2L,
+    convertPrefixToList as cPre2L,
+    // convertFuncionToList as cF2L,
+} from '../../src'
 
-// ************************* utils *************************  //
-// * mergeConfig
-// *   * initProps: {...size, ...prefix}
-// *   * initConfig:{xConfig, prefix, ...xConfig, ...prefix}
-// *   *  => {...xConfig, ...prefix} = defaultProps
-// ************************* ***** *************************  //
-describe('Basic', () => {
-    describe('is', () => {
-        const num = 0
-        const str = ""
-        const obj = {}
-        test('primitive', () => {
-            expect(is({},{})).toBe(true)
-            expect(is({num},{num:0})).toBe(true)
-            expect(is({str},{str:""})).toBe(true)
-        })
-        test('object', () => {
-            expect(is({obj},{obj:obj})).toBe(true)
-            expect(is({obj},{obj:{}})).toBe(false)
-        })
-    })
-    // describe('mergeConfig', () => {})
-})
-// ************************* 📺 useMedia 📺 *************************  //
-// ************************* *************** *************************  //
-describe('for useMedia', () => {
-    const widthRef = {current: {clientWidth:100}}
-    const config = {widthRef, ...defaultConfig} as Config
-    describe('convertNumToPix', () => {
-        test('value is number', () =>{
-            expect(cN2P<number>(  10, config)).toBe(10)
-            expect(cN2P<number>( .10, config)).toBe(10)
-            expect(cN2P<number>(-.10, config)).toBe(90)
-        })
-        test('value is number and positive', () => {
-            expect(cN2P<number[]>([  10, 50], config)).toStrictEqual([10,50])
-            expect(cN2P<number[]>([ .10, 50], config)).toStrictEqual([10,50])
-            expect(cN2P<number[]>([-.10, 50], config)).toStrictEqual([ 5,50])
-        })
-        test('value is number and negative', () => {
-            expect(cN2P<number[]>([  10,-.5], config)).toStrictEqual([10,45])
-            expect(cN2P<number[]>([ .10,-.5], config)).toStrictEqual([10,45])
-            expect(cN2P<number[]>([-.10,-.5], config)).toStrictEqual([10,50])
-        })
-    })
-    describe('convertObjToStr', () => {
-        const screen  = true
-        test('value is number', () => {
-            expect(cO2S({screen, minWidth: 0}, config)).toBe('screen and (min-width: 0px)')
-            expect(cO2S({screen, maxWidth:.1}, config)).toBe('screen and (max-width: 10px)')
-        })
-    })
-})
+
 // ************************* 👌 useGrid 👌 *************************  //
 // * convertPropsToList
 // *   * {md:0, lg:.5, {min...}:1}      = Object.entries=>
@@ -64,7 +19,9 @@ describe('for useMedia', () => {
 // *   * [[md,0],[lg:100],[min...,200]] = convertPrefixToList=>
 // *   * [['min-width...',0],[min-width...,.5]]
 // ************************* ************* *************************  //
-describe('for useGrid', () => {
+// describe('mergeConfig', () => {})
+
+describe('grid', () => {
     const widthRef = {current: {clientWidth:100}}
     const config = {widthRef, ...defaultConfig} as Config
     describe('convertPrefixToList', () => {
@@ -109,9 +66,24 @@ describe('for useGrid', () => {
 // *That is, it supports only the left side of the following types
 // *    GridProps<T=any> = {[key:string]:T} | MediaList<T>[]
 // *So you cant use G<T> Type as previous code!
+/***   (i) => {md:i,lg:i} or (i) => [[md,i],[lg,i]]
+  * => [{md:0,lg:0},{md:1,lg:1}] or [[[md,0],[lg,0]],[[md,1],[lg,1]]]
+  * => [[ [md,0], [lg,0] ],[ [md,1], [lg,1] ]]
+  * => [[md,[0,1]],[lg,[0,1]]]
+ ***/
+/*
+Object.assign(...Object.keys(state[0]).map( k => {k:states.map(s=>s[k])} ))
+[ {x:0,y:0}
+  {x:1,y:1}
+  {x:2,y:2} ]
+=>
+{x:[0,1,2],y:[0,1,2]}
+*/
 // ***********************************************************  //
+
+
 describe('for useGrids', () => {
-    describe('convertFuncToList', () => {
+    describe('convertFuncionToList', () => {
         test('TODO', () => {
             expect('').toBe('')
         })

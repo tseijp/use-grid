@@ -15,7 +15,6 @@ export type MediaString = MediaQueryList;
 export type MediaObject<T=string|number|boolean> = {[key:string]:T};
 
 export interface MediaConfig {
-    [key:string]:any,
     size?: {[key:string]:number},
     width?: number,
     widthRef?: null|Element|RefObject<Element>,
@@ -25,7 +24,6 @@ export interface MediaConfig {
 export type ViewChangeHandler = (entry: IntersectionObserverEntry) => void
 
 export interface ViewConfig {
-    [key:string]: any,
     root?: React.RefObject<Element>,
     rootMargin?: string,
     threshold?: number|number[],
@@ -36,9 +34,9 @@ export interface ViewConfig {
 }
 // ************************* 👌 useGrid 👌 ************************* //
 export type mediaType =
-  | null
-  | "all"
-  | "screen"
+    | null
+    | "all"
+    | "screen"
 
 export interface Config extends MediaConfig, ViewConfig {
     mediaConfig:MediaConfig,
@@ -48,13 +46,13 @@ export interface Config extends MediaConfig, ViewConfig {
 export type MediaList<T=any> = [string|MediaObject, T];
 
 export type ExtendProps =
-  | Config
-  | ViewConfig
-  | ((b:boolean)=>void)
+    | Config
+    | ViewConfig
+    | ((b:boolean) => void)
 
 export type GridProps<T=any> =
-  | {[key:string]:T}
-  | MediaList<T>[]
+    | {[key:string]: T}
+    | MediaList<T>[]
 
 export type Grid<T> = (
     props:BasicProps<GridProps<T|ExtendProps>>,
@@ -64,7 +62,7 @@ export type Grid<T> = (
 
 // ************************* 👌 useGrids 👌 ************************* //
 export type FunctionProps<T=any>  =
-  | ((i:number) => {[key:string]:T})
-  | {[key:string]:T}[]
+    | ((i:number) => {[key:string]:T})
+    | {[key:string]:T}[]
 
 export type FunctionAction<T> = (fn:FunctionProps<T>) => void

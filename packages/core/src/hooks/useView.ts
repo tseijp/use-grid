@@ -1,10 +1,10 @@
-import React, {useState, useRef} from 'react'
+import {RefObject, useState, useRef} from 'react'
 import {Effect, ViewConfig, ViewChangeHandler} from '../types'
 import {is, defaultConfig} from '../utils'
 
-const createView = (effect:Effect) => (
-    target: React.RefObject<Element> | Element | null,
-    callback?: ViewChangeHandler,
+export const createView = (effect:Effect) => (
+    target: RefObject<Element> | Element | null,
+    onView?: ViewChangeHandler,
     viewConfig: ViewConfig = defaultConfig.viewConfig,
 ) => {
     const {defaultView, once, timeout, ...initialConfig} = viewConfig
@@ -27,8 +27,8 @@ const createView = (effect:Effect) => (
 
         const observer = new IntersectionObserver( (entries) => {
             const entry = entries[entries.length-1]
-            if (callback)
-                callback(entry);
+            if (onView)
+                onView(entry);
             if (!mounted) return
             setTimeout(() => set(entry.isIntersecting), timeout)
             if(entry.isIntersecting && once)
@@ -44,7 +44,4 @@ const createView = (effect:Effect) => (
         }
     }, [configRef.current, target])
     return view
-}
-
-export const useView = createView(React.useEffect)
-export const useLayoutView = createView(React.useLayoutEffect)
+};

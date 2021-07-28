@@ -1,42 +1,42 @@
-import React, {useCallback, useState, useRef} from 'react';
-import {Effect, Config, GridProps as GP, ExtendProps as EP, BasicProps, BasicState, BasicAction} from '../types'
-import {is, defaultConfig, defaultMedia, convertPropsToList as cP2L, mergeConfig} from '../utils'
+import {RefObject, useCallback, useState, useRef} from 'react';
+import {Effect, Config, GridProps, ExtendProps, BasicProps, BasicAction} from '../types'
+import {is, defaultConfig, defaultMedia, convertPropsToList as $, mergeConfig} from '../utils'
 
-type OneOrMore<T = any> = T | T[]
-
-const createGrid = (effect: Effect) => <T extends any>(
-    initProps: BasicProps<GP<T|EP>>,
-    targetRef: (React.RefObject<Element> | Element)[] = [],
+export const createGrid = (effect: Effect) => <T extends any>(
+    initProps: BasicProps<GridProps<T|ExtendProps>>,
+    targetRef: (RefObject<Element> | Element)[] = [],
     initConfig: Config=defaultConfig,
-): [T, BasicAction<GP<T|EP>>] => {
+): [T, BasicAction<GridProps<T|ExtendProps>>] => {
     if (is.fun(initProps))
         initProps = initProps()
     if (is.len(0, targetRef))
         targetRef = []
+    const props = is.arr(initProps)? initProps: Object.entries(initProps)
+    const [config] = useState(() => mergeConfig<T|ExtendProps>(props, initConfig))
 
-    const props = initProps instanceof Array ? initProps : Object.entries(initProps)
-    const [config] = useState(() => mergeConfig<T|EP>(props, initConfig)) //TODO:set
-
-    // ********** ➊ grid : output value that match your media query ********** //
-    const [list, setList] = useState(cP2L<T|EP>(props,config) as [string,T|EP][])
+    // ********** ➊ grid: output value that match your media query ********** //
+    const [list, setList] = useState($<T|ExtendProps>(props,config))
     const [view, setView] = useState(config.defaultView)
-    const [grid, setGrid] = useState((list.filter(l=>l[0]==="init")[0]||list[0])[1] as T)
-    const noneRef = useRef(null as T | null)
-    const gridRef = useRef(initProps as GP<T|EP>)
+    const [grid, setGrid] = useState((): T => {
+        const prop = list.find(l => l[0]==="init") || list[0]
+        return prop?.length > 1? prop[1]: null as any // TODO
+    })
+    const noneRef = useRef<T>()
+    const gridRef = useRef(initProps)
     const viewRef = useRef(Array(targetRef?.length).fill(view))
 
-    // ********** ➋ set : Functions to change media conditions later ********** //
-    const set = useCallback((initState: BasicState<GP<T|EP>>) => {
+    // ********** ➋ set: Functions to change media conditions later ********** //
+    const set = useCallback(initState => {
         if (is.fun(initState))
             initState = initState(gridRef.current)
         gridRef.current = initState
         const state = Array.isArray(initState)
             ? initState
             : Object.entries(initState)
-        setList( cP2L(state, config) )
+        setList($(state, config))
     }, [config])
 
-    // ********** 📺 ➌ effect : for useMedia 📺 ********** //
+    // ********** 📺 ➌ effect: for useMedia 📺 ********** //
     effect(() => {
         let mounted = true;
         const {prefix} = config;
@@ -56,7 +56,7 @@ const createGrid = (effect: Effect) => <T extends any>(
 
             media.addListener(fn)
             if (mounted && media.matches)
-                setGrid(value as T);
+                setGrid(value as T)
             return { media, fn }
         })
 
@@ -67,7 +67,7 @@ const createGrid = (effect: Effect) => <T extends any>(
     }, [list, config])
 
     // ********** 👀 ➍ effect : for useView 👀 ********** //
-    effect(()=> {
+    effect(() => {
         let mounted = true;
         const {timeout=0, once=false, onView=null} = config;
         const observers = targetRef?.map((ref,i) => {
@@ -101,7 +101,4 @@ const createGrid = (effect: Effect) => <T extends any>(
     }, [config])
 
     return [view || !noneRef.current ? grid : noneRef.current, set]
-}
-
-export const useGrid = createGrid (React.useEffect);
-export const useLayoutGrid  = createGrid (React.useLayoutEffect);
+};

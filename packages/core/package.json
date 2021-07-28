@@ -1,6 +1,5 @@
 {
     "name": "use-grid",
-    "homepage": "/",
     "version": "1.0.0",
     "module": "index.js",
     "types": "index.d.ts",
@@ -11,6 +10,7 @@
     "sideEffects": false,
     "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
     "repository": "https://github.com/tseijp/use-grid",
+    "homepage": "https://tseijp.github.io/use-grid/",
     "bugs": "https://github.com/tseijp/use-grid/issues",
     "keywords": [
         "react",
