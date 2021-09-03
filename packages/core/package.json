@@ -1,28 +1,43 @@
 {
     "name": "use-grid",
-    "version": "1.0.1",
-    "module": "index.js",
-    "types": "index.d.ts",
-    "main": "index.cjs.js",
     "author": "tsei",
+    "version": "1.0.1",
     "license": "MIT",
     "private": false,
     "sideEffects": false,
+    "module": "index.js",
+    "types": "index.d.ts",
+    "main": "index.cjs.js",
+    "files": [
+        "src",
+        "index.js",
+        "index.d.ts",
+        "index.cjs.js"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
     "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
-    "repository": "https://github.com/tseijp/use-grid",
     "homepage": "https://tseijp.github.io/use-grid/",
-    "bugs": "https://github.com/tseijp/use-grid/issues",
+    "bugs": {
+        "url": "https://github.com/tseijp/use-grid/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tseijp/use-grid.git"
+    },
     "keywords": [
+        "hooks",
         "react",
-        "typescript",
-        "material-ui",
-        "material design",
-        "bootstrap",
         "grid"
     ],
     "peerDependencies": {
-        "react": ">=16.8",
-        "react-dom": ">=16.8"
+        "react": ">=16.8"
+    },
+    "peerDependenciesMeta": {
+        "react": {
+            "optional": true
+        }
     },
     "devDependencies": {
         "@babel/plugin-transform-runtime": "^7.13.15",

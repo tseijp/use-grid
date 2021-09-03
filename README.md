@@ -1,24 +1,48 @@
 
 <h2 align="center">️🤏 use-grid</h2>
-
 <p align="center">
-<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
-<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/types-✔-yellow.svg"/></a>
-<a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
-<br>
-<a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
-<a href="https://www.npmjs.com/package/use-grid"><img src="https://badge.fury.io/js/use-grid.svg" alt="npm version" height="18"></a>
-<a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
-a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" src="https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp"/></a>
+
+[![ npm version ](
+    https://img.shields.io/npm/v/use-grid?style=flat&colorA=000&colorB=000)](
+    https://www.npmjs.com/package/use-grid)
+[![ downloads ](
+    https://img.shields.io/npm/dm/use-grid.svg?style=flat&colorA=000&colorB=000)](
+    https://www.npmtrends.com/use-grid)
+[![ license MIT ](
+    https://img.shields.io/npm/l/use-grid?style=flat&colorA=000&colorB=000)](
+    https://github.com/tseijp/use-grid)
+[![ docs available ](
+    https://img.shields.io/badge/docs-available-000.svg?style=flat&colorA=000)](
+    https://tseijp.github.io/use-grid/)
+[![ module formats ](
+    https://img.shields.io/badge/module%20formats-cjs%20esm-000.svg?style=flat&colorA=000)](
+    #alternative-installation-methods)
+
+[![ codecov ](
+    https://codecov.io/gh/tseijp/use-grid/coverage.svg?branch=master)](
+    https://codecov.io/gh/tseijp/use-grid)
+[![ bundle size ](
+    https://img.shields.io/bundlephobia/minzip/use-grid/react?style=flat&colorA=000&colorB=000)](
+    https://bundlephobia.com/result?use-grid@latest)
+[![ Tweet ](
+    https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ftseijp)](
+    https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text="🤏+use-grid+is+a+hook+to+build+responsive+layouts+of+all+shapes+and+sizes.)
+
+</p>
+<p align="center">
+
+🤏 __use-grid__ is
+
+- a hook to build responsive layouts of all shapes and sizes,
+- a fork of __[👌 use-media][media]__ that track the state of CSS media queries,
+- a fork of __[👏 use-intersection][inter]__ that track whether the target intersects,
+- and remake of __[🅱 bootstrap][bstrp]__ grid system thanks to responsive column system.
+
 </p>
 
-<p align="center"> 🤏 <strong>use-grid</strong> is</p>
-<ul  align="center">
-<li>a hook to build responsive layouts of all shapes and sizes, </li>
-<li>a fork of 👌 <strong><a href="https://github.com/streamich/use-media">use-media</a></strong> that track the state of CSS media queries, </li>
-<li>a fork of 👏 <strong><a href="https://github.com/cats-oss/use-intersection">use-intersection</a></strong> that track whether the target intersects, </li>
-<li>and remake of 🅱 <strong><a href="https://getbootstrap.com/docs/4.2/layout/grid/">bootstrap</a></strong> grid system thanks to responsive column system.</li>
-</ul>
+[media]: https://github.com/streamich/use-media
+[inter]: https://github.com/cats-oss/use-intersection
+[bstrp]: https://getbootstrap.com/docs/4.2/layout/grid/
 
 <hr>
 
