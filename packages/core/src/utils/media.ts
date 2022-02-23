@@ -30,10 +30,7 @@ export const defaultConfig: Config = {
     prefix : ['none','init','onView','mediaConfig','viewConfig']
 };
 
-export function convertNumToPix <T=any> (
-    value: T,
-    config?: Config
-): T
+export function convertNumToPix <T=any> (value: T, config?: Config): T
 
 export function convertNumToPix (value: any, config=defaultConfig) {
     let target = config.widthRef

@@ -1,22 +1,28 @@
 {
     "name": "@use-grid/root",
+    "version": "1.0.0",
     "author": "tsei",
     "license": "MIT",
     "private": true,
     "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
     "repository": "tseijp/use-grid",
     "homepage": "https://tseijp.github.io/use-grid",
-    "maintainers": ["tseijp (https://github.com/tseijp)"],
-    "workspaces": ["packages/*", "examples/*"],
+    "maintainers": [
+        "tseijp (https://github.com/tseijp)"
+    ],
+    "workspaces": [
+        "packages/*",
+        "examples/*"
+    ],
     "scripts": {
-        "start": "lerna exec --scope @use-grid/docs -- yarn start",
-        "build": "lerna exec --scope @use-grid/docs -- yarn build",
-        "deploy": "lerna exec --scope @use-grid/docs -- yarn deploy",
-        "update": "lerna exec --scope use-grid -- yarn publish",
-        "rollup": "lerna exec --scope use-grid -- rollup -c",
-        "watch": "lerna exec --scope use-grid -- jest --watch --runInBand",
-        "cov": "lerna exec --scope use-grid -- jest --coverage",
-        "ls": "lerna exec --scope use-grid -- npm pack --dry-run"
+        "start": "cd examples && cd docs && yarn start",
+        "build": "cd examples && cd docs && yarn build",
+        "deploy": "cd examples && cd docs && yarn deploy",
+        "update": "cd packages && cd core && yarn publish",
+        "rollup": "cd packages && cd core && yarn rollup -c",
+        "watch": "cd packages && cd core && jest --watch --runInBand",
+        "cov": "cd packages && cd core && jest --coverage",
+        "ls": "cd packages && cd core && npm pack --dry-run"
     },
     "devDependencies": {
         "lerna": "^4.0.0"
