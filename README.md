@@ -44,7 +44,7 @@
 [inter]: https://github.com/cats-oss/use-intersection
 [bstrp]: https://getbootstrap.com/docs/4.2/layout/grid/
 
-<hr>
+<hr/>
 
 ### Table of Contents
 * [Install via npm](#install-via-npm)

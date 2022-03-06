@@ -5,7 +5,7 @@
 <a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/build-✔-green.svg"/></a>
 <a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/types-✔-yellow.svg"/></a>
 <a href="https://github.com/tseijp/use-grid"><img alt="build passin"src="https://img.shields.io/badge/demos-✔-red.svg"/></a>
-<br>
+<br/>
 <a href="https://github.com/tseijp/use-grid"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green.svg"/></a>
 <a href="https://www.npmjs.com/package/use-grid"><img src="https://badge.fury.io/js/use-grid.svg" alt="npm version" height="18"></a>
 <a href="https://twitter.com/intent/tweet?url=https://tsei.jp/hook/use-grid/&text=🤏 use-grid is
@@ -20,7 +20,7 @@ a hook to build responsive layouts of all shapes and sizes." ><img alt="tweet" s
 <li>and remake of 🅱 <strong><a href="https://getbootstrap.com/docs/4.2/layout/grid/">bootstrap</a></strong> grid system thanks to responsive column system.</li>
 </ul>
 
-<hr>
+<hr/>
 
 ### Table of Contents
 * [Install via npm](#install-via-npm)
