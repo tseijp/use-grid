@@ -1,7 +1,6 @@
 {
   "name": "@use-grid/docs",
   "version": "0.0.0",
-  "private": true,
   "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
   "scripts": {
     "docusaurus": "docusaurus",
@@ -42,6 +41,12 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.10"
+    "@react-three/drei": "7.16.8",
+    "@react-three/fiber": "7.0.16",
+    "@types/styled-components": "^5.1.10",
+    "parsed-path": "^0.1.15",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-mixing": "^0.1.0"
   }
 }

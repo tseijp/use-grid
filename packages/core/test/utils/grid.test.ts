@@ -24,40 +24,29 @@ import {
 describe('grid', () => {
     const widthRef = {current: {clientWidth:100}}
     const config = {widthRef, ...defaultConfig} as Config
-    describe('convertPrefixToList', () => {
-        test('basic', () => {
-            expect( cPre2L(Object.entries({xs:0}), config) )
-                .toStrictEqual([["(min-width:1px)", 0]])
-            expect( cPre2L(Object.entries({lg:1}), config) )
-                .toStrictEqual([["(min-width:1px)", 1], // ERROR!
-                                ["(min-width:992px)", 1],])
-        })
-        test('multi', () => {
-            expect( cPre2L(Object.entries({xs:0,lg:1}), config) )
-                .toStrictEqual([["(min-width:1px) and (max-width:991px)", 0],
-                                ["(min-width:992px)", 1],])
-            expect( cPre2L(Object.entries({md:0,lg:1}), config) )
-                .toStrictEqual([["(min-width:1px) and (max-width:991px)", 0],
-                                ["(min-width:768px)", 0], //ERROR!
-                                ["(min-width:992px)", 1],])
-        })
+    it.each`
+        props          | expected
+        ${{xs:0}}      | ${[["(min-width:1px)", 0]]}
+        ${{lg:1}}      | ${[["(min-width:1px)", 1], ["(min-width:992px)", 1]]}//ERROR!
+        ${{xs:0,lg:1}} | ${[["(min-width:1px) and (max-width:991px)", 0], ["(min-width:992px)", 1]]}
+        ${{md:0,lg:1}} | ${[["(min-width:1px) and (max-width:991px)", 0], ["(min-width:768px)", 0], ["(min-width:992px)", 1]]}//ERROR!
+    `('convertPrefixToList', ({expected, ...props}) => {
+        const result = cPre2L(Object.entries(props), config)
+        expect(result).toEqual(expected)
     })
+
     describe('convertPropsToList', () => {
-        test('value is number', () => {
-            expect(cPro2L(Object.entries({xs:  1}), config)).toStrictEqual([["(min-width:1px)", 1]])
-            expect(cPro2L(Object.entries({xs: .1}), config)).toStrictEqual([["(min-width:1px)",10]])
-            expect(cPro2L(Object.entries({xs:-.1}), config)).toStrictEqual([["(min-width:1px)",90]])
-        })
-        test('value is number and positive', () => {
-            expect(cPro2L(Object.entries({xs:  1, lg:50}), config))
-                .toStrictEqual([["(min-width:1px) and (max-width:991px)", 1],
-                                ["(min-width:992px)", 50]])
-            expect(cPro2L(Object.entries({xs: .1, lg:50}), config))
-                .toStrictEqual([["(min-width:1px) and (max-width:991px)", 10],
-                                ["(min-width:992px)", 50]])
-            expect(cPro2L(Object.entries({xs:-.1, lg:50}), config))
-                .toStrictEqual([["(min-width:1px) and (max-width:991px)", 90],//ERROR! 5!
-                                ["(min-width:992px)", 50]])
+        it.each`
+          props       | expected
+          ${{xs:  1}} | ${[["(min-width:1px)", 1]]}
+          ${{xs: .1}} | ${[["(min-width:1px)",10]]}
+          ${{xs:-.1}} | ${[["(min-width:1px)",90]]}
+          ${{xs:  1, lg:50}} | ${[["(min-width:1px) and (max-width:991px)",  1], ["(min-width:992px)", 50]]}
+          ${{xs: .1, lg:50}} | ${[["(min-width:1px) and (max-width:991px)", 10], ["(min-width:992px)", 50]]}
+          ${{xs:-.1, lg:50}} | ${[["(min-width:1px) and (max-width:991px)", 90], ["(min-width:992px)", 50]]}//ERROR! 5!
+        `('convertPropsToList', ({expected, ...props}) => {
+            const result = cPro2L(Object.entries(props), config)
+            expect(result).toEqual(expected)
         })
     })
 })
@@ -80,12 +69,12 @@ Object.assign(...Object.keys(state[0]).map( k => {k:states.map(s=>s[k])} ))
 {x:[0,1,2],y:[0,1,2]}
 */
 // ***********************************************************  //
-
-
-describe('for useGrids', () => {
-    describe('convertFuncionToList', () => {
-        test('TODO', () => {
-            expect('').toBe('')
-        })
-    })
-})
+//
+//
+// describe('for useGrids', () => {
+//     describe('convertFuncionToList', () => {
+//         test('TODO', () => {
+//             expect('').toBe('')
+//         })
+//     })
+// })
