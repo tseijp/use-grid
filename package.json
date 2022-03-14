@@ -1,11 +1,20 @@
 {
+    "bugs": "https://github.com/tseijp/use-grid/issues/",
+    "homepage": "https://tseijp.github.io/use-grid/",
+    "repository": "https://github.com/tseijp/use-grid/",
+    "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
+    "keywords": [
+        "hooks",
+        "react",
+        "media",
+        "query",
+        "view",
+        "grid"
+    ],
     "name": "@use-grid/root",
     "author": "tsei",
     "license": "MIT",
     "private": true,
-    "description": "🤏 use-grid is a hook to build responsive layouts of all shapes and sizes.",
-    "repository": "tseijp/use-grid",
-    "homepage": "https://tseijp.github.io/use-grid",
     "maintainers": ["tseijp (https://github.com/tseijp)"],
     "workspaces": ["packages/*", "examples/*"],
     "scripts": {
