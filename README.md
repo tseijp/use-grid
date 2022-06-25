@@ -1,5 +1,6 @@
+# 🤏use-grid
 
-<h2 align="center">️🤏 use-grid</h2>
+<h2 align="center">️🤏use-grid</h2>
 <p align="center">
 
 [![ npm version ](
@@ -46,29 +47,33 @@
 
 <hr/>
 
-### Table of Contents
+## Table of Contents
+
 * [Install via npm](#install-via-npm)
 * [Quick started](#quick-started)
 * [Simple example](#simple-example)
 * [Available hooks](#available-hooks)
 * [Performance pitfalls](#performance-pitfalls)
 
-### Install via npm
+## Install via npm
+
 ```bash
 npm i use-grid
 ```
 
-### Quick started
+## Quick started
+
 ```bash
 git clone github.com/tseijp/use-grid
 cd use-grid
 npm run init
 npm run docs
+
 ```
 * open browser and visit [localhost:3000](http://localhost:3000/)
 * ~Now you can go to our [demo](https://tsei.jp/hook/use-grid), and try its usage.~
 
-### Simple example
+## Simple example
 
 __switch by media query__
 
@@ -135,7 +140,7 @@ render (
 )
 ```
 
-### Available hooks
+## Available hooks
 
 | Hook              | Description                                             |  
 | ----------------- | ------------------------------------------------------- |  
@@ -148,7 +153,7 @@ render (
 | `useLayoutMedia`  | work like useMedia using useLayoutEffect |  
 | `useLayoutView`   | work like useView  using useLayoutEffect |  
 
-### Performance Pitfalls
+## Performance Pitfalls
 
 __Grid prefix__
 
