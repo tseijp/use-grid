@@ -163,11 +163,11 @@ The grid system uses containers, rows and columns to control layout and alignmen
 
 name|prefix|max width|max container width|  
 :----------|:--|:----------|:--------|  
-Extra small|xs |<_576_   px|auto     |  
-Small      |sm |>=_576_  px|_540_ px |  
-Medium     |md |>=_768_  px|_720_ px |  
-Large      |lg |>=_992_  px|_960_ px |  
-Extra large|xl |>=_1200_ px|_1140_ px|  
+Extra small|xs |`< 576`   px|auto     |  
+Small      |sm |`>= 576`  px|_540_ px |  
+Medium     |md |`>= 768`  px|_720_ px |  
+Large      |lg |`>= 992`  px|_960_ px |  
+Extra large|xl |`>= 1200` px|_1140_ px|  
 
 __Grid Options__
 
