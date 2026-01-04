@@ -17,7 +17,7 @@
     https://tseijp.github.io/use-grid/)
 [![ module formats ](
     https://img.shields.io/badge/module%20formats-cjs%20esm-000.svg?style=flat&colorA=000)](
-    #alternative-installation-methods)
+    #install-via-npm)
 
 [![ codecov ](
     https://codecov.io/gh/tseijp/use-grid/coverage.svg?branch=master)](
